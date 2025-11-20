@@ -32,6 +32,7 @@ import {
   Plus,
   Wifi,
   Shield,
+  Landmark,
 } from "lucide-react";
 import {
   AlertDialog,
@@ -43,6 +44,20 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { DateRangePicker as RsuiteDateRangePicker } from "rsuite";
+import { Switch } from "@/components/ui/switch";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui/accordion";
 
 interface PaymentRow {
   id: string;
@@ -66,6 +81,33 @@ interface PaymentMethod {
   isDefault: boolean;
   lastUsed: string;
   status: "active" | "expired" | "inactive";
+  autopayEnabled: boolean;
+}
+
+const COUNTRIES = [
+  "United States",
+  "Canada",
+  "United Kingdom",
+  "Australia",
+  "India",
+  "Germany",
+  "France",
+  "Japan",
+  "Brazil",
+  "Mexico",
+  "Singapore",
+  "Netherlands",
+  "Sweden",
+  "Switzerland",
+];
+
+interface AddPaymentFormData {
+  cardholderName: string;
+  cardNumber: string;
+  expiryDate: string;
+  cvc: string;
+  country: string;
+  paypalEmail: string;
 }
 
 const paymentMethods: PaymentMethod[] = [
@@ -79,6 +121,7 @@ const paymentMethods: PaymentMethod[] = [
     isDefault: true,
     lastUsed: "2025-09-01",
     status: "active",
+    autopayEnabled: true,
   },
   {
     id: "pm_2",
@@ -90,6 +133,7 @@ const paymentMethods: PaymentMethod[] = [
     isDefault: false,
     lastUsed: "2025-07-15",
     status: "active",
+    autopayEnabled: true,
   },
   {
     id: "pm_3",
@@ -101,6 +145,7 @@ const paymentMethods: PaymentMethod[] = [
     isDefault: false,
     lastUsed: "2025-05-02",
     status: "active",
+    autopayEnabled: true,
   },
   {
     id: "pm_4",
@@ -111,6 +156,7 @@ const paymentMethods: PaymentMethod[] = [
     isDefault: false,
     lastUsed: "2025-02-14",
     status: "active",
+    autopayEnabled: true,
   },
 ];
 
@@ -291,14 +337,328 @@ function getCardBorderGradient(cardNetwork?: string) {
   }
 }
 
+function AddPaymentMethodDialog({
+  open,
+  onOpenChange,
+  onAdd,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onAdd: (method: PaymentMethod) => void;
+}) {
+  const [formData, setFormData] = useState<AddPaymentFormData>({
+    cardholderName: "",
+    cardNumber: "",
+    expiryDate: "",
+    cvc: "",
+    country: "United States",
+    paypalEmail: "",
+  });
+
+  const handleAddCard = () => {
+    if (
+      !formData.cardholderName ||
+      !formData.cardNumber ||
+      !formData.expiryDate ||
+      !formData.cvc
+    ) {
+      alert("Please fill in all card details");
+      return;
+    }
+
+    const newMethod: PaymentMethod = {
+      id: `pm_${Date.now()}`,
+      type: "credit_card",
+      cardNetwork: "Visa",
+      cardNumber: formData.cardNumber.slice(-4),
+      expiryDate: formData.expiryDate,
+      cardholderName: formData.cardholderName,
+      isDefault: false,
+      lastUsed: new Date().toISOString().split("T")[0],
+      status: "active",
+      autopayEnabled: true,
+    };
+
+    onAdd(newMethod);
+    setFormData({
+      cardholderName: "",
+      cardNumber: "",
+      expiryDate: "",
+      cvc: "",
+      country: "United States",
+      paypalEmail: "",
+    });
+    onOpenChange(false);
+  };
+
+  const handleAddPayPal = () => {
+    if (!formData.paypalEmail) {
+      alert("Please enter your PayPal email");
+      return;
+    }
+
+    const newMethod: PaymentMethod = {
+      id: `pm_${Date.now()}`,
+      type: "paypal",
+      cardNumber: formData.paypalEmail,
+      expiryDate: "",
+      cardholderName: "PayPal Account",
+      isDefault: false,
+      lastUsed: new Date().toISOString().split("T")[0],
+      status: "active",
+      autopayEnabled: true,
+    };
+
+    onAdd(newMethod);
+    setFormData({
+      cardholderName: "",
+      cardNumber: "",
+      expiryDate: "",
+      cvc: "",
+      country: "United States",
+      paypalEmail: "",
+    });
+    onOpenChange(false);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-2xl">
+        <DialogHeader>
+          <DialogTitle>Add Payment Method</DialogTitle>
+        </DialogHeader>
+
+        <Accordion type="single" collapsible defaultValue="stripe">
+          <AccordionItem value="stripe">
+            <AccordionTrigger className="text-base font-semibold hover:no-underline py-3 px-4 rounded-lg hover:bg-gray-50 transition-colors">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg">
+                  <CreditCard className="w-5 h-5 text-blue-600" />
+                </div>
+                <div className="text-left">
+                  <p className="font-semibold text-gray-900">Card</p>
+                  <p className="text-xs text-gray-500">
+                    Visa, Mastercard, Amex
+                  </p>
+                </div>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-5 pt-4 pb-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Card information
+                  </label>
+                  <div className="relative">
+                    <Input
+                      placeholder="1234 1234 1234 1234"
+                      value={formData.cardNumber}
+                      onChange={(e) => {
+                        const val = e.target.value.replace(/\s/g, "");
+                        setFormData({ ...formData, cardNumber: val });
+                      }}
+                      className="h-11 pr-28 text-base"
+                    />
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex gap-1">
+                      <img
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 32'%3E%3Crect fill='%231A1F71' width='48' height='32' rx='4'/%3E%3Ctext x='24' y='20' font-size='14' font-weight='bold' fill='white' text-anchor='middle'%3EVISA%3C/text%3E%3C/svg%3E"
+                        alt="Visa"
+                        className="w-8 h-5 object-cover"
+                      />
+                      <img
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 32'%3E%3Ccircle cx='16' cy='16' r='10' fill='%23FF5F00'/%3E%3Ccircle cx='32' cy='16' r='10' fill='%23EB001B'/%3E%3Cpath d='M 22 10 Q 26 14 22 18 Q 18 14 22 10' fill='%23F79E1B'/%3E%3C/svg%3E"
+                        alt="Mastercard"
+                        className="w-8 h-5 object-cover"
+                      />
+                      <img
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 32'%3E%3Crect fill='%23006FCF' width='48' height='32' rx='4'/%3E%3Ctext x='24' y='20' font-size='12' font-weight='bold' fill='white' text-anchor='middle'%3EAMEX%3C/text%3E%3C/svg%3E"
+                        alt="Amex"
+                        className="w-8 h-5 object-cover"
+                      />
+                      <img
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 32'%3E%3Crect fill='%23FF5F00' width='48' height='32' rx='4'/%3E%3Ctext x='24' y='20' font-size='10' font-weight='bold' fill='white' text-anchor='middle'%3EDISCOVER%3C/text%3E%3C/svg%3E"
+                        alt="Discover"
+                        className="w-8 h-5 object-cover"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      MM/YY
+                    </label>
+                    <Input
+                      placeholder="MM/YY"
+                      value={formData.expiryDate}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          expiryDate: e.target.value,
+                        })
+                      }
+                      className="h-11"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      CVC
+                    </label>
+                    <div className="relative">
+                      <Input
+                        placeholder="CVC"
+                        value={formData.cvc}
+                        onChange={(e) =>
+                          setFormData({ ...formData, cvc: e.target.value })
+                        }
+                        className="h-11 pr-10"
+                      />
+                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                        <svg
+                          className="w-6 h-6 text-gray-400"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <rect x="3" y="6" width="18" height="13" rx="2" />
+                          <rect
+                            x="5"
+                            y="13"
+                            width="14"
+                            height="4"
+                            fill="currentColor"
+                            opacity="0.3"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Cardholder name
+                  </label>
+                  <Input
+                    placeholder="Full name on card"
+                    value={formData.cardholderName}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        cardholderName: e.target.value,
+                      })
+                    }
+                    className="h-11"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Country or region
+                  </label>
+                  <Select
+                    value={formData.country}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, country: value })
+                    }
+                  >
+                    <SelectTrigger className="h-11">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {COUNTRIES.map((country) => (
+                        <SelectItem key={country} value={country}>
+                          {country}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <DialogFooter className="pt-2">
+                  <Button variant="outline" onClick={() => onOpenChange(false)}>
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleAddCard}
+                    className="bg-gradient-to-r from-valasys-orange to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white"
+                  >
+                    Add Card
+                  </Button>
+                </DialogFooter>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="paypal">
+            <AccordionTrigger className="text-base font-semibold hover:no-underline py-3 px-4 rounded-lg hover:bg-gray-50 transition-colors">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg">
+                  <svg
+                    className="w-5 h-5 text-blue-600"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M9.5 2a1 1 0 0 0-.979.905L8.032 8H3a1 1 0 0 0 0 2h4.543L7.23 18.095a1 1 0 0 0 .979.905H20a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-10.5z" />
+                  </svg>
+                </div>
+                <div className="text-left">
+                  <p className="font-semibold text-gray-900">PayPal</p>
+                  <p className="text-xs text-gray-500">Fast and secure</p>
+                </div>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-5 pt-4 pb-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    PayPal Email
+                  </label>
+                  <Input
+                    placeholder="your-email@example.com"
+                    type="email"
+                    value={formData.paypalEmail}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        paypalEmail: e.target.value,
+                      })
+                    }
+                    className="h-11"
+                  />
+                </div>
+
+                <DialogFooter className="pt-2">
+                  <Button variant="outline" onClick={() => onOpenChange(false)}>
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleAddPayPal}
+                    className="bg-gradient-to-r from-valasys-orange to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white"
+                  >
+                    Add PayPal
+                  </Button>
+                </DialogFooter>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 function ModernPaymentCard({
   method,
   onDelete,
   onSetDefault,
+  onAutopayChange,
 }: {
   method: PaymentMethod;
   onDelete: (id: string) => void;
   onSetDefault: (id: string) => void;
+  onAutopayChange: (id: string, enabled: boolean) => void;
 }) {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const isPayPal = method.type === "paypal";
@@ -306,33 +666,32 @@ function ModernPaymentCard({
   return (
     <>
       <div className="group relative">
-        {method.isDefault ? (
-          <div
-            className="relative rounded-2xl overflow-hidden h-52 bg-white shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 p-6 flex flex-col justify-between"
-            style={{
-              border: "3px solid",
-              borderImage: `${getCardBorderGradient(method.cardNetwork)} 1`,
-            }}
-          >
-            <div className="flex items-start justify-between">
-              <div className="space-y-1">
-                <div className="text-xs font-semibold text-gray-600 tracking-wider">
-                  {isPayPal ? "PAYPAL" : "CREDIT CARD"}
-                </div>
-                <div className="text-lg font-bold text-gray-900">
-                  {getCardNetwork(method)}
-                </div>
+        <div
+          className={`relative rounded-2xl overflow-hidden h-52 bg-white transition-all duration-300 transform hover:scale-105 p-6 flex flex-col justify-between ${
+            method.isDefault
+              ? "shadow-md hover:shadow-lg"
+              : "border-2 border-gray-300 hover:border-gray-400 shadow-sm hover:shadow-md"
+          }`}
+          style={
+            method.isDefault
+              ? {
+                  border: "3px solid",
+                  borderImage: `${getCardBorderGradient(method.cardNetwork)} 1`,
+                }
+              : undefined
+          }
+        >
+          <div className="flex items-start justify-between">
+            <div className="space-y-1">
+              <div className="text-xs font-semibold text-gray-600 tracking-wider">
+                {isPayPal ? "PAYPAL" : "CREDIT CARD"}
               </div>
-              <div className="flex items-center gap-2 flex-wrap justify-end">
-                <div className="bg-green-100 px-3 py-1.5 rounded-full border border-green-300">
-                  <span
-                    className="flex items-center gap-1.5 text-green-700 font-semibold"
-                    style={{ fontSize: "12px" }}
-                  >
-                    <span className="inline-flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
-                    Autopay enabled
-                  </span>
-                </div>
+              <div className="text-lg font-bold text-gray-900">
+                {getCardNetwork(method)}
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              {method.isDefault && (
                 <div className="bg-blue-50 px-3 py-1.5 rounded-full border border-blue-300">
                   <span
                     className="flex items-center gap-1.5 text-blue-700 font-semibold"
@@ -342,53 +701,8 @@ function ModernPaymentCard({
                     Default
                   </span>
                 </div>
-                <button
-                  onClick={() => setDeleteOpen(true)}
-                  className="p-2 rounded-full bg-red-100 border border-red-300 text-red-600 hover:bg-red-200 transition-all duration-200"
-                  title="Delete card"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <p className="text-sm font-semibold text-gray-900 tracking-wide">
-                  {method.cardholderName.toUpperCase()}
-                </p>
-              </div>
-
-              <div className="flex items-end justify-between">
-                <div className="flex-1">
-                  <p className="text-lg font-mono font-bold text-gray-900 tracking-widest">
-                    {isPayPal
-                      ? method.cardNumber
-                      : `•••• •••• •••• ${method.cardNumber}`}
-                  </p>
-                </div>
-                {!isPayPal && (
-                  <div className="text-right">
-                    <p className="font-mono font-bold text-sm text-gray-900">
-                      {method.expiryDate}
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="relative rounded-2xl overflow-hidden h-52 bg-white border-2 border-gray-300 hover:border-gray-400 shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-105 p-6 flex flex-col justify-between">
-            <div className="flex items-start justify-between">
-              <div className="space-y-1">
-                <div className="text-xs font-semibold text-gray-600 tracking-wider">
-                  {isPayPal ? "PAYPAL" : "CREDIT CARD"}
-                </div>
-                <div className="text-lg font-bold text-gray-900">
-                  {getCardNetwork(method)}
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
+              )}
+              {!method.isDefault && (
                 <button
                   onClick={() => onSetDefault(method.id)}
                   className="p-2 rounded-full bg-orange-100 border border-orange-300 text-valasys-orange hover:bg-orange-200 transition-all duration-200"
@@ -396,42 +710,81 @@ function ModernPaymentCard({
                 >
                   <CheckCircle className="w-4 h-4" />
                 </button>
-                <button
-                  onClick={() => setDeleteOpen(true)}
-                  className="p-2 rounded-full bg-red-100 border border-red-300 text-red-600 hover:bg-red-200 transition-all duration-200"
-                  title="Delete card"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
+              )}
+              <button
+                onClick={() => setDeleteOpen(true)}
+                className="p-2 rounded-full bg-red-100 border border-red-300 text-red-600 hover:bg-red-200 transition-all duration-200"
+                title="Delete card"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <p className="text-sm font-semibold text-gray-900 tracking-wide">
+                {method.cardholderName.toUpperCase()}
+              </p>
             </div>
 
-            <div className="space-y-4">
-              <div>
-                <p className="text-sm font-semibold text-gray-900 tracking-wide">
-                  {method.cardholderName.toUpperCase()}
+            <div className="flex items-end justify-between">
+              <div className="flex-1">
+                <p className="text-lg font-mono font-bold text-gray-900 tracking-widest">
+                  {isPayPal
+                    ? method.cardNumber
+                    : `•••• •••• •••• ${method.cardNumber}`}
                 </p>
-              </div>
-
-              <div className="flex items-end justify-between">
-                <div className="flex-1">
-                  <p className="text-lg font-mono font-bold text-gray-900 tracking-widest">
-                    {isPayPal
-                      ? method.cardNumber
-                      : `•••• •••• •••• ${method.cardNumber}`}
-                  </p>
-                </div>
-                {!isPayPal && (
-                  <div className="text-right">
-                    <p className="font-mono font-bold text-sm text-gray-900">
-                      {method.expiryDate}
-                    </p>
+                {method.isDefault && (
+                  <div className="mt-2">
+                    <div
+                      className={`inline-flex items-center gap-2 px-2.5 py-1 rounded-full border ${
+                        method.autopayEnabled
+                          ? "bg-green-100 border-green-300"
+                          : "bg-gray-100 border-gray-300"
+                      }`}
+                    >
+                      <Switch
+                        checked={method.autopayEnabled}
+                        onCheckedChange={(checked) =>
+                          onAutopayChange(method.id, checked)
+                        }
+                        className="h-3.5 w-7 scale-75 origin-left"
+                      />
+                      <span
+                        className={`inline-flex items-center gap-1.5 font-semibold ${
+                          method.autopayEnabled
+                            ? "text-green-700"
+                            : "text-gray-600"
+                        }`}
+                        style={{ fontSize: "11px" }}
+                      >
+                        {method.autopayEnabled ? (
+                          <>
+                            <span className="inline-flex h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                            Autopay Enabled
+                          </>
+                        ) : (
+                          <>
+                            <span className="inline-flex h-1.5 w-1.5 rounded-full bg-gray-400"></span>
+                            Autopay Disabled
+                          </>
+                        )}
+                      </span>
+                    </div>
                   </div>
                 )}
               </div>
+              {!isPayPal && (
+                <div className="text-right">
+                  <p className="font-mono font-bold text-sm text-gray-900">
+                    {method.expiryDate}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
-        )}
+        </div>
       </div>
 
       <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
@@ -479,6 +832,7 @@ export default function Payments() {
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [paymentMethodsList, setPaymentMethodsList] =
     useState<PaymentMethod[]>(paymentMethods);
+  const [addPaymentDialogOpen, setAddPaymentDialogOpen] = useState(false);
 
   const uniqueTypes = useMemo(
     () => Array.from(new Set(rows.map((r) => r.type))).sort(),
@@ -591,6 +945,18 @@ export default function Payments() {
     );
   };
 
+  const handleAutopayChange = (id: string, enabled: boolean) => {
+    setPaymentMethodsList((prev) =>
+      prev.map((pm) =>
+        pm.id === id ? { ...pm, autopayEnabled: enabled } : pm,
+      ),
+    );
+  };
+
+  const handleAddPaymentMethod = (method: PaymentMethod) => {
+    setPaymentMethodsList((prev) => [...prev, method]);
+  };
+
   const HeaderSort = ({
     label,
     field,
@@ -663,7 +1029,10 @@ export default function Payments() {
                   {paymentMethodsList.length !== 1 ? "s" : ""} on file
                 </p>
               </div>
-              <Button className="bg-gradient-to-r from-valasys-orange to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg hover:shadow-xl transition-all h-11">
+              <Button
+                onClick={() => setAddPaymentDialogOpen(true)}
+                className="bg-gradient-to-r from-valasys-orange to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg hover:shadow-xl transition-all h-11"
+              >
                 <Plus className="w-5 h-5 mr-2" />
                 Add New Card
               </Button>
@@ -680,7 +1049,10 @@ export default function Payments() {
                 <p className="text-gray-600 mb-6">
                   Add your first payment method to get started
                 </p>
-                <Button className="bg-gradient-to-r from-valasys-orange to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white h-10">
+                <Button
+                  onClick={() => setAddPaymentDialogOpen(true)}
+                  className="bg-gradient-to-r from-valasys-orange to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white h-10"
+                >
                   <Plus className="w-4 h-4 mr-2" />
                   Add Payment Method
                 </Button>
@@ -693,6 +1065,7 @@ export default function Payments() {
                     method={method}
                     onDelete={handleDeletePaymentMethod}
                     onSetDefault={handleSetDefaultPaymentMethod}
+                    onAutopayChange={handleAutopayChange}
                   />
                 ))}
               </div>
@@ -922,6 +1295,12 @@ export default function Payments() {
             </Card>
           </TabsContent>
         </Tabs>
+
+        <AddPaymentMethodDialog
+          open={addPaymentDialogOpen}
+          onOpenChange={setAddPaymentDialogOpen}
+          onAdd={handleAddPaymentMethod}
+        />
       </div>
     </DashboardLayout>
   );
