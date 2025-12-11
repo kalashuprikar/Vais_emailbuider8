@@ -76,35 +76,34 @@ export function VAISFeedbackModal({
               ?
             </p>
 
-            {/* Star Rating */}
-            <div className="flex justify-center gap-2 py-4">
-              {[1, 2, 3, 4, 5].map((star) => (
+            {/* 1-10 Rating Scale */}
+            <div className="flex justify-center gap-1.5 py-6">
+              {ratingColors.map(({ num, color }) => (
                 <button
-                  key={star}
-                  onClick={() => setRating(star)}
-                  onMouseEnter={() => setHoveredRating(star)}
+                  key={num}
+                  onClick={() => setRating(num)}
+                  onMouseEnter={() => setHoveredRating(num)}
                   onMouseLeave={() => setHoveredRating(null)}
-                  className="transition-all duration-200 hover:scale-110"
+                  className={cn(
+                    "w-10 h-10 rounded font-bold text-white text-sm transition-all duration-200 hover:scale-110 border-2",
+                    rating === num ? "border-gray-800 shadow-lg scale-110" : "border-transparent",
+                  )}
+                  style={{
+                    backgroundColor: color,
+                    opacity: hoveredRating !== null && num > hoveredRating ? 0.5 : 1,
+                  }}
                   type="button"
+                  title={`Rating ${num}`}
                 >
-                  <Star
-                    className={cn(
-                      "w-8 h-8 transition-all duration-200",
-                      rating !== null && star <= rating
-                        ? "fill-current text-yellow-400"
-                        : hoveredRating !== null && star <= hoveredRating
-                          ? "fill-gray-400 text-gray-400"
-                          : "text-gray-300",
-                    )}
-                    style={{
-                      color:
-                        rating !== null && star <= rating
-                          ? "#fcc003"
-                          : undefined,
-                    }}
-                  />
+                  {num}
                 </button>
               ))}
+            </div>
+
+            {/* Rating Labels */}
+            <div className="flex justify-between text-xs text-gray-500 px-2">
+              <span>Very unsatisfied</span>
+              <span>Totally satisfied</span>
             </div>
 
             {/* Subtext */}
