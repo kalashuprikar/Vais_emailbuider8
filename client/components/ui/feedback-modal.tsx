@@ -135,40 +135,44 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
             </p>
 
             {/* GIF Rating */}
-            <div className="flex justify-center items-center gap-3 py-4">
+            <div className="flex justify-center items-center gap-2 py-4">
               {ratingEmojis.map((item) => (
-                <button
-                  key={item.value}
-                  onClick={() => setRating(item.value)}
-                  onMouseEnter={() => setHoveredRating(item.value)}
-                  onMouseLeave={() => setHoveredRating(null)}
-                  className={cn(
-                    "transition-all duration-200 transform relative flex items-center justify-center",
-                    rating === item.value
-                      ? "scale-125"
-                      : "scale-100 hover:scale-110",
-                    rating === item.value && "p-1.5 bg-valasys-orange rounded-full"
-                  )}
-                  title={item.label}
-                  type="button"
-                >
-                  <img
-                    ref={(el) => {
-                      if (el) gifRefs.current[item.value] = el;
-                    }}
-                    src={item.gif}
-                    alt={item.label}
+                <div key={item.value} className="flex flex-col items-center gap-1">
+                  <button
+                    onClick={() => setRating(item.value)}
+                    onMouseEnter={() => setHoveredRating(item.value)}
+                    onMouseLeave={() => setHoveredRating(null)}
                     className={cn(
-                      "w-8 h-8 rounded-full object-cover transition-all duration-200",
-                      rating === item.value || hoveredRating === item.value
-                        ? "opacity-100 drop-shadow-lg"
-                        : "opacity-70"
+                      "transition-all duration-200 transform relative flex items-center justify-center",
+                      rating === item.value
+                        ? "scale-125"
+                        : "scale-100 hover:scale-110",
+                      rating === item.value && "p-1.5 bg-valasys-orange rounded-full"
                     )}
-                  />
-                  {(rating === item.value || hoveredRating === item.value) && (
-                    <div className="absolute inset-0 rounded-full ring-2 ring-offset-1 ring-valasys-orange pointer-events-none" />
-                  )}
-                </button>
+                    title={item.label}
+                    type="button"
+                  >
+                    <img
+                      ref={(el) => {
+                        if (el) gifRefs.current[item.value] = el;
+                      }}
+                      src={item.gif}
+                      alt={item.label}
+                      className={cn(
+                        "w-8 h-8 rounded-full object-cover transition-all duration-200",
+                        rating === item.value || hoveredRating === item.value
+                          ? "opacity-100 drop-shadow-lg"
+                          : "opacity-70"
+                      )}
+                    />
+                    {(rating === item.value || hoveredRating === item.value) && (
+                      <div className="absolute inset-0 rounded-full ring-2 ring-offset-1 ring-valasys-orange pointer-events-none" />
+                    )}
+                  </button>
+                  <span className="text-xs text-gray-600 text-center max-w-[60px] leading-tight">
+                    {item.label}
+                  </span>
+                </div>
               ))}
             </div>
           </div>
