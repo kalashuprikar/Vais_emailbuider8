@@ -117,11 +117,13 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
         <div className="space-y-6">
           {/* Rating Section */}
           <div className="space-y-3 text-center">
-            <h3 className="text-xl font-bold text-gray-900">
-              How do you rate the quality of the swap?
+            <h3 className="text-lg font-bold text-gray-900">
+              We love to hear from you! How's your experience with the{" "}
+              <span className="text-valasys-orange">Valasys AI Score</span>?
             </h3>
-            <p className="text-sm text-gray-600">
-              Please rate so we can improve the quality of our service
+            <p className="text-sm text-gray-600 leading-relaxed">
+              Your feedback helps us improve our service.<br />
+              Please share your thoughts and suggestions below.
             </p>
 
             {/* GIF Rating */}
