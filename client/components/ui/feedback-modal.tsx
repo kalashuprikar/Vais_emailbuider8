@@ -72,7 +72,7 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
                     "transition-all duration-200 transform",
                     hoveredRating !== null && star <= hoveredRating
                       ? "scale-125"
-                      : "scale-100"
+                      : "scale-100",
                   )}
                   title={`${star} star${star !== 1 ? "s" : ""}`}
                   type="button"
