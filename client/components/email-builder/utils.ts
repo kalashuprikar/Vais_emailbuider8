@@ -298,6 +298,50 @@ export function createSpacerBlock(height = 20): SpacerBlock {
   };
 }
 
+export function createCenteredImageCardBlock(): CenteredImageCardBlock {
+  return {
+    type: "centeredImageCard",
+    id: generateId(),
+    image: "https://images.unsplash.com/photo-1470114716159-e389f8712fda?w=600&h=300&fit=crop",
+    imageAlt: "Card image",
+    title: "Some title here",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+    buttonText: "Call to action",
+    buttonLink: "#",
+    buttonLinkType: "url",
+    backgroundColor: "#ffffff",
+    borderColor: "#e0e0e0",
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 20,
+    margin: 16,
+    visibility: "all",
+  };
+}
+
+export function createSplitImageCardBlock(): SplitImageCardBlock {
+  return {
+    type: "splitImageCard",
+    id: generateId(),
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=300&h=300&fit=crop",
+    imageAlt: "Card image",
+    label: "New",
+    title: "Some title here",
+    description: "From 25€\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+    buttonText: "Call to action",
+    buttonLink: "#",
+    buttonLinkType: "url",
+    imagePosition: "left",
+    backgroundColor: "#ffffff",
+    borderColor: "#e0e0e0",
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 20,
+    margin: 16,
+    visibility: "all",
+  };
+}
+
 export function createEmptyTemplate(): EmailTemplate {
   return {
     id: generateId(),
