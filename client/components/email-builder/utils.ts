@@ -16,6 +16,8 @@ import {
   HeaderBlock,
   FooterBlock,
   SpacerBlock,
+  CenteredImageCardBlock,
+  SplitImageCardBlock,
 } from "./types";
 
 export function generateId(): string {
