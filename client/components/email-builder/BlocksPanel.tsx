@@ -82,14 +82,14 @@ const DraggableBlockButton: React.FC<DraggableBlockProps> = ({ block }) => {
   return (
     <button
       ref={drag}
-      className={`flex flex-col items-center justify-center p-4 rounded-lg border border-gray-200 hover:border-valasys-orange hover:bg-orange-50 transition-all hover:shadow-md cursor-move ${
+      className={`flex flex-col items-center justify-center p-6 rounded-lg border border-gray-200 hover:border-valasys-orange hover:bg-orange-50 transition-all hover:shadow-md cursor-move ${
         isDragging ? "opacity-50 scale-95" : ""
       }`}
     >
-      <div className="mb-2 relative">
+      <div className="mb-4 relative">
         {block.icon}
-        <div className="absolute -top-2 left-1/2 -translate-x-1/2 text-valasys-orange">
-          <GripHorizontal className="w-3 h-3" />
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-valasys-orange">
+          <GripHorizontal className="w-4 h-4" />
         </div>
       </div>
       <span className="text-sm font-medium text-gray-900">{block.label}</span>
