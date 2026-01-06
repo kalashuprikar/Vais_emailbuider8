@@ -205,7 +205,9 @@ export const ContactFormBlockPreview: React.FC<BlockPreviewProps> = ({
   return (
     <div
       onClick={onSelect}
-      className="cursor-pointer hover:opacity-90"
+      className={`cursor-pointer transition-all border-2 ${
+        isSelected ? "border-valasys-orange" : "border-gray-200"
+      }`}
       style={{ backgroundColor: props.backgroundColor }}
     >
       <div className="px-8 py-16 max-w-2xl mx-auto">
