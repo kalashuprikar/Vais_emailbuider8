@@ -123,7 +123,7 @@ export const BlocksPanel: React.FC<BlocksPanelProps> = ({ onAddBlock }) => {
         </TabsList>
 
         <TabsContent value="blocks" className="flex flex-col m-0 flex-1 overflow-hidden">
-          <div className="p-4 border-b border-gray-200 sticky top-[52px] bg-white z-20">
+          <div className="p-4 border-b border-gray-200 bg-white flex-shrink-0">
             <Input
               placeholder="Search blocks..."
               value={searchQuery}
