@@ -69,13 +69,13 @@ export const VideoBlockComponent: React.FC<VideoBlockComponentProps> = ({
         <div style={videoContainerStyle}>
           <video
             width="100%"
-            height={block.height}
             controls
             poster={block.thumbnail}
             style={{
               maxWidth: "100%",
               height: "auto",
               borderRadius: `${block.borderRadius}px`,
+              display: "block",
             }}
           >
             <source src={block.src} type="video/mp4" />
