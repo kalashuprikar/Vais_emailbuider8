@@ -236,6 +236,16 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
           />
         </div>
       );
+    case "features":
+      return (
+        <div onClick={handleClick}>
+          <FeaturesBlockComponent
+            block={block as any}
+            isSelected={isSelected}
+            onUpdate={(updatedBlock) => onBlockUpdate(updatedBlock)}
+          />
+        </div>
+      );
     default:
       return null;
   }
