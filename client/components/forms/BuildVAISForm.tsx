@@ -804,11 +804,13 @@ export default function BuildVAISForm() {
                               ...formData,
                               geolocation: [...geolocations],
                             });
+                            triggerFieldBlink("intentTopics");
                           } else if (!formData.geolocation.includes(value)) {
                             setFormData({
                               ...formData,
                               geolocation: [...formData.geolocation, value],
                             });
+                            triggerFieldBlink("intentTopics");
                           }
                           setGeoSearchTerm(""); // Clear search after selection
                         }}
@@ -816,6 +818,9 @@ export default function BuildVAISForm() {
                         <SelectTrigger
                           className={cn(
                             "min-h-[40px]",
+                            blinkingField === "geolocation"
+                              ? "border-blink"
+                              : "",
                             formData.geolocation.length > 0
                               ? "border-green-300"
                               : "",
