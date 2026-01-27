@@ -184,6 +184,17 @@ export const EmailBuilder: React.FC<EmailBuilderProps> = ({
     setShowSaveDialog(false);
   };
 
+  const handleDownloadHTML = () => {
+    const htmlContent = renderTemplateToHTML(template);
+    const element = document.createElement("a");
+    const file = new Blob([htmlContent], { type: "text/html" });
+    element.href = URL.createObjectURL(file);
+    element.download = `${templateName || "template"}.html`;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
+
   const handleUndo = useCallback(() => {
     if (undoStack.length > 0) {
       const newUndo = [...undoStack];
