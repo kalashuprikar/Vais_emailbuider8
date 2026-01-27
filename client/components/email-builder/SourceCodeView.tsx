@@ -56,9 +56,9 @@ export const SourceCodeView: React.FC<SourceCodeViewProps> = ({ template }) => {
             Complete HTML for: {template.name || "Untitled Template"}
           </p>
         </div>
-        <TooltipProvider delayDuration={100}>
+        <TooltipProvider>
           <div className="flex items-center gap-2">
-            <Tooltip open={copied || undefined} delayDuration={0}>
+            <Tooltip open={openTooltip} onOpenChange={setOpenTooltip} delayDuration={0}>
               <TooltipTrigger asChild>
                 <Button
                   variant="outline"
