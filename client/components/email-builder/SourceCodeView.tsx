@@ -238,7 +238,7 @@ ${htmlContent.substring(htmlContent.indexOf('<div style="max-width:'), htmlConte
   return (
     <div className="flex flex-col h-full bg-gray-50">
       {/* Header with Actions */}
-      <div className="bg-white border-b border-gray-200 p-4 flex items-center gap-4">
+      <div className="bg-white border-b border-gray-200 p-4 flex items-center justify-between gap-4 flex-shrink-0">
         <div className="flex-1 min-w-0">
           <h2 className="text-lg font-semibold text-gray-800">
             HTML Source Code
@@ -247,50 +247,48 @@ ${htmlContent.substring(htmlContent.indexOf('<div style="max-width:'), htmlConte
             Complete HTML for: {template.name || "Untitled Template"}
           </p>
         </div>
-        <TooltipProvider delayDuration={200}>
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <Tooltip open={openTooltip} onOpenChange={setOpenTooltip}>
-              <TooltipTrigger asChild>
-                <Button variant="outline" size="sm" onClick={handleCopy}>
-                  <Copy className="w-4 h-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent className="font-medium" side="top">
-                {copied ? "Copied!" : "Copy Code"}
-              </TooltipContent>
-            </Tooltip>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm">
-                  <Download className="w-4 h-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-max">
-                <DropdownMenuItem
-                  onClick={handleDownloadHTML}
-                  className="py-2.5"
-                >
-                  <Download className="w-4 h-4 mr-3" />
-                  Download HTML
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={handleDownloadPDF}
-                  className="py-2.5"
-                >
-                  <Download className="w-4 h-4 mr-3" />
-                  Download Preview (PDF)
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={handleDownloadInlineHTML}
-                  className="py-2.5"
-                >
-                  <Download className="w-4 h-4 mr-3" />
-                  Download Pure HTML
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </TooltipProvider>
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <Tooltip open={openTooltip} onOpenChange={setOpenTooltip}>
+            <TooltipTrigger asChild>
+              <Button variant="outline" size="sm" onClick={handleCopy}>
+                <Copy className="w-4 h-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent className="font-medium" side="top">
+              {copied ? "Copied!" : "Copy Code"}
+            </TooltipContent>
+          </Tooltip>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm">
+                <Download className="w-4 h-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-max">
+              <DropdownMenuItem
+                onClick={handleDownloadHTML}
+                className="py-2.5"
+              >
+                <Download className="w-4 h-4 mr-3" />
+                Download HTML
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={handleDownloadPDF}
+                className="py-2.5"
+              >
+                <Download className="w-4 h-4 mr-3" />
+                Download Preview (PDF)
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={handleDownloadInlineHTML}
+                className="py-2.5"
+              >
+                <Download className="w-4 h-4 mr-3" />
+                Download Pure HTML
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
 
       {/* Code Display */}
