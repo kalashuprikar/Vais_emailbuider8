@@ -20,18 +20,40 @@ export const SourceCodeView: React.FC<SourceCodeViewProps> = ({ template }) => {
 
   const htmlContent = renderTemplateToHTML(template);
 
-  const handleCopy = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText(htmlContent);
+  const handleCopy = useCallback(() => {
+    if (!htmlContent) {
+      console.error("No content to copy");
+      return;
+    }
+
+    navigator.clipboard.writeText(htmlContent).then(() => {
+      console.log("Content copied to clipboard");
       setCopied(true);
       setOpenTooltip(true);
       setTimeout(() => {
         setCopied(false);
         setOpenTooltip(false);
       }, 2000);
-    } catch (err) {
+    }).catch((err) => {
       console.error("Failed to copy:", err);
-    }
+      // Fallback: use old method
+      const textArea = document.createElement("textarea");
+      textArea.value = htmlContent;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand("copy");
+        setCopied(true);
+        setOpenTooltip(true);
+        setTimeout(() => {
+          setCopied(false);
+          setOpenTooltip(false);
+        }, 2000);
+      } catch (err) {
+        console.error("Fallback copy failed:", err);
+      }
+      document.body.removeChild(textArea);
+    });
   }, [htmlContent]);
 
   const handleDownload = () => {
