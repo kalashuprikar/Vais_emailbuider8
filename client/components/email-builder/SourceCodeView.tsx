@@ -106,9 +106,9 @@ export const SourceCodeView: React.FC<SourceCodeViewProps> = ({ template }) => {
 
 
   return (
-    <div className="flex flex-col h-full bg-gray-50">
-      {/* Header with Actions - Always visible */}
-      <div className="sticky top-0 z-50 bg-white border-b border-gray-200 p-4 flex items-start justify-between gap-4 shadow-sm">
+    <div className="flex flex-col h-full bg-gray-50 overflow-hidden">
+      {/* Header with Actions - Fixed at top */}
+      <div className="bg-white border-b border-gray-200 p-4 flex items-start justify-between gap-4 shadow-sm flex-shrink-0">
         <div className="flex-1 min-w-0">
           <h2 className="text-lg font-semibold text-gray-800">
             HTML Source Code
@@ -149,7 +149,7 @@ export const SourceCodeView: React.FC<SourceCodeViewProps> = ({ template }) => {
         </TooltipProvider>
       </div>
 
-      {/* Code Display */}
+      {/* Code Display with scrolling */}
       <div className="flex-1 overflow-auto p-4">
         <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
           <pre className="p-4 text-xs font-mono text-gray-800 overflow-auto max-h-full leading-relaxed">
@@ -159,7 +159,7 @@ export const SourceCodeView: React.FC<SourceCodeViewProps> = ({ template }) => {
       </div>
 
       {/* Stats Footer */}
-      <div className="bg-white border-t border-gray-200 p-4 text-sm text-gray-600 flex justify-between">
+      <div className="bg-white border-t border-gray-200 p-4 text-sm text-gray-600 flex justify-between flex-shrink-0">
         <span>Lines: {htmlContent.split("\n").length}</span>
         <span>Characters: {htmlContent.length}</span>
         <span>Blocks: {template.blocks.length}</span>
