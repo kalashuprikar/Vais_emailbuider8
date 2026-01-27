@@ -75,7 +75,6 @@ export default function Templates() {
     setTemplates(loaded);
     setView("list");
     setSelectedTemplateId(null);
-    // Keep the tab preference saved so user returns to same tab when editing again
   };
 
   const filteredTemplates = templates.filter(

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDrag } from "react-dnd";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -52,8 +52,6 @@ import { ContentBlock } from "./types";
 interface BlocksPanelProps {
   onAddBlock: (block: ContentBlock) => void;
 }
-
-type TabValue = "blocks" | "sections" | "saved";
 
 interface BlockOption {
   id: string;
@@ -398,24 +396,6 @@ const SectionsPanel: React.FC<SectionsPanelProps> = ({ onAddBlock }) => {
 
 export const BlocksPanel: React.FC<BlocksPanelProps> = ({ onAddBlock }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeTab, setActiveTab] = useState<TabValue>("blocks");
-
-  // Load saved tab preference from localStorage
-  useEffect(() => {
-    const savedTab = localStorage.getItem(
-      "email-builder-active-tab",
-    ) as TabValue | null;
-    if (savedTab && ["blocks", "sections", "saved"].includes(savedTab)) {
-      setActiveTab(savedTab);
-    }
-  }, []);
-
-  // Save tab preference to localStorage whenever it changes
-  const handleTabChange = (value: string) => {
-    const tabValue = value as TabValue;
-    setActiveTab(tabValue);
-    localStorage.setItem("email-builder-active-tab", tabValue);
-  };
 
   const blockOptions: BlockOption[] = [
     {
@@ -523,11 +503,7 @@ export const BlocksPanel: React.FC<BlocksPanelProps> = ({ onAddBlock }) => {
 
   return (
     <div className="flex flex-col bg-white border-r border-gray-200 w-full">
-      <Tabs
-        value={activeTab}
-        onValueChange={handleTabChange}
-        className="flex flex-col"
-      >
+      <Tabs defaultValue="blocks" className="flex flex-col">
         <TabsList className="sticky top-0 z-20 flex w-full h-auto rounded-none border-b border-gray-200 bg-white p-0">
           <TabsTrigger
             value="blocks"

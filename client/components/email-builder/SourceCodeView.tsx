@@ -28,141 +28,258 @@ export const SourceCodeView: React.FC<SourceCodeViewProps> = ({ template }) => {
   const htmlContent = renderTemplateToHTML(template);
 
   const handleCopy = useCallback(() => {
-    const copyToClipboard = (text: string) => {
-      try {
-        const textArea = document.createElement("textarea");
-        textArea.value = text;
-        textArea.style.position = "fixed";
-        textArea.style.left = "-999999px";
-        textArea.style.top = "-999999px";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-
-        const successful = document.execCommand("copy");
-        document.body.removeChild(textArea);
-
-        if (successful) {
-          setCopied(true);
-          setOpenTooltip(true);
-          toast.success("Code copied to clipboard");
-          setTimeout(() => {
-            setCopied(false);
-            setOpenTooltip(false);
-          }, 2000);
-        } else {
-          toast.error("Failed to copy code");
-        }
-      } catch (err) {
-        console.error("Copy failed:", err);
-        toast.error("Failed to copy code");
-      }
-    };
-
-    // Try modern Clipboard API first, but fallback to execCommand
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard
-        .writeText(htmlContent)
-        .then(() => {
-          console.log("Content copied to clipboard");
-          setCopied(true);
-          setOpenTooltip(true);
-          toast.success("Code copied to clipboard");
-          setTimeout(() => {
-            setCopied(false);
-            setOpenTooltip(false);
-          }, 2000);
-        })
-        .catch(() => {
-          // Fallback to execCommand if Clipboard API fails
-          copyToClipboard(htmlContent);
-        });
-    } else {
-      // No Clipboard API available, use fallback
-      copyToClipboard(htmlContent);
+    if (!htmlContent) {
+      console.error("No content to copy");
+      return;
     }
+
+    navigator.clipboard
+      .writeText(htmlContent)
+      .then(() => {
+        console.log("Content copied to clipboard");
+        setCopied(true);
+        setOpenTooltip(true);
+        setTimeout(() => {
+          setCopied(false);
+          setOpenTooltip(false);
+        }, 2000);
+      })
+      .catch((err) => {
+        console.error("Failed to copy:", err);
+        // Fallback: use old method
+        const textArea = document.createElement("textarea");
+        textArea.value = htmlContent;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand("copy");
+          setCopied(true);
+          setOpenTooltip(true);
+          setTimeout(() => {
+            setCopied(false);
+            setOpenTooltip(false);
+          }, 2000);
+        } catch (err) {
+          console.error("Fallback copy failed:", err);
+        }
+        document.body.removeChild(textArea);
+      });
   }, [htmlContent]);
 
+  const handleDownloadHTML = () => {
+    const element = document.createElement("a");
+    const file = new Blob([htmlContent], { type: "text/html" });
+    element.href = URL.createObjectURL(file);
+    element.download = `${template.name || "template"}.html`;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+
+    toast.success("HTML downloaded successfully");
+  };
+
   const handleDownloadInlineHTML = () => {
-    try {
-      // htmlContent is already a complete HTML document from renderTemplateToHTML
-      const element = document.createElement("a");
-      const file = new Blob([htmlContent], { type: "text/html" });
-      element.href = URL.createObjectURL(file);
-      element.download = `${template.name || "template"}.html`;
-      document.body.appendChild(element);
-      element.click();
-      document.body.removeChild(element);
+    // Create pure HTML with inline CSS
+    const inlineHTMLContent = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${template.subject}</title>
+</head>
+<body style="background-color: ${template.backgroundColor || "#ffffff"}; padding: ${template.padding || 0}px; font-family: Arial, sans-serif; margin: 0;">
+  <div style="max-width: 600px; margin: 0 auto;">
+${htmlContent.substring(htmlContent.indexOf('<div style="max-width:'), htmlContent.lastIndexOf("</div>") + 6)}
+  </div>
+</body>
+</html>`;
 
-      // Clean up the object URL
-      setTimeout(() => URL.revokeObjectURL(element.href), 100);
+    const element = document.createElement("a");
+    const file = new Blob([inlineHTMLContent], { type: "text/html" });
+    element.href = URL.createObjectURL(file);
+    element.download = `${template.name || "template"}.html`;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
 
-      toast.success("Pure HTML downloaded successfully");
-    } catch (error) {
-      console.error("Error downloading HTML:", error);
-      toast.error("Failed to download HTML");
+    toast.success("Pure HTML with inline CSS downloaded successfully");
+  };
+
+  const handleDownloadPDF = () => {
+    // Create a new window to print as PDF with the email preview
+    const printWindow = window.open("", "", "height=900,width=1200");
+    if (printWindow) {
+      const bgColor = template.backgroundColor || "#ffffff";
+      const padding = template.padding || 20;
+
+      try {
+        printWindow.document.write(`
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>${template.name || "Template"}</title>
+            <style>
+              * { margin: 0; padding: 0; box-sizing: border-box; }
+              body {
+                font-family: Arial, sans-serif;
+                background-color: #f5f5f5;
+                padding: 40px 20px;
+              }
+              .container {
+                max-width: 800px;
+                margin: 0 auto;
+                background-color: white;
+                padding: 40px;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+              }
+              .header {
+                border-bottom: 2px solid #e0e0e0;
+                padding-bottom: 20px;
+                margin-bottom: 30px;
+              }
+              .header h1 {
+                font-size: 24px;
+                color: #333;
+                margin-bottom: 10px;
+              }
+              .subject {
+                margin-top: 5px;
+                padding: 8px 12px;
+                background-color: #f0f0f0;
+                border-radius: 4px;
+                display: inline-block;
+                color: #666;
+                font-size: 14px;
+              }
+              .email-preview {
+                border-radius: 4px;
+                min-height: 400px;
+              }
+              .email-preview img {
+                max-width: 100%;
+                height: auto;
+              }
+              .email-preview h1, .email-preview h2, .email-preview h3 {
+                margin-bottom: 15px;
+              }
+              .email-preview p {
+                margin-bottom: 10px;
+                line-height: 1.6;
+              }
+              .email-preview a {
+                color: #007bff;
+                text-decoration: none;
+              }
+              .email-preview button {
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 14px;
+              }
+              @media print {
+                body {
+                  background-color: white;
+                  padding: 0;
+                }
+                .container {
+                  box-shadow: none;
+                  padding: 20px 0;
+                }
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <div class="header">
+                <h1>${template.name || "Email Template"}</h1>
+                <div class="subject"><strong>Subject:</strong> ${template.subject || "No Subject"}</div>
+              </div>
+              <div class="email-preview" style="background-color: ${bgColor}; padding: ${padding}px;">
+                ${htmlContent}
+              </div>
+            </div>
+          </body>
+          </html>
+        `);
+        printWindow.document.close();
+        setTimeout(() => {
+          printWindow.print();
+          setTimeout(() => printWindow.close(), 100);
+        }, 250);
+      } catch (error) {
+        console.error("Error generating PDF preview:", error);
+        toast.error("Failed to generate PDF preview");
+      }
     }
+
+    toast.success(
+      "PDF preview opened. Use your browser's print dialog to save as PDF",
+    );
   };
 
   return (
-    <div className="flex flex-col h-full bg-gray-50 overflow-hidden">
-      {/* Header with Actions - Fixed at top */}
-      <div
-        className="bg-white border-b border-gray-200 p-4 shadow-sm flex-shrink-0 relative z-50 w-full"
-        style={{ overflow: "visible" }}
-      >
-        <div
-          className="flex items-center justify-between gap-4 mb-2 w-full"
-          style={{ minWidth: "100%" }}
-        >
-          <h2 className="text-lg font-semibold text-gray-800 whitespace-nowrap flex-shrink-0">
+    <div className="flex flex-col h-full bg-gray-50">
+      {/* Header with Actions */}
+      <div className="bg-white border-b border-gray-200 p-4 flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-semibold text-gray-800">
             HTML Source Code
           </h2>
-          <TooltipProvider delayDuration={200}>
-            <div
-              className="flex items-center gap-2 flex-shrink-0"
-              style={{ visibility: "visible", zIndex: 50 }}
-            >
-              <Tooltip open={openTooltip} onOpenChange={setOpenTooltip}>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleCopy}
-                    className="flex-shrink-0"
-                  >
-                    <Copy className="w-4 h-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent className="font-medium" side="top">
-                  {copied ? "Copied!" : "Copy Code"}
-                </TooltipContent>
-              </Tooltip>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="flex-shrink-0">
-                    <Download className="w-4 h-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-max">
-                  <DropdownMenuItem
-                    onClick={handleDownloadInlineHTML}
-                    className="py-2.5"
-                  >
-                    <Download className="w-4 h-4 mr-3" />
-                    Download Pure HTML
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </TooltipProvider>
+          <p className="text-sm text-gray-600 mt-1">
+            Complete HTML for: {template.name || "Untitled Template"}
+          </p>
         </div>
-        <p className="text-sm text-gray-600 truncate">
-          Complete HTML for: {template.name || "Untitled Template"}
-        </p>
+        <TooltipProvider delayDuration={200}>
+          <div className="flex items-center gap-2">
+            <Tooltip open={openTooltip} onOpenChange={setOpenTooltip}>
+              <TooltipTrigger asChild>
+                <Button variant="outline" size="sm" onClick={handleCopy}>
+                  <Copy className="w-4 h-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="font-medium" side="top">
+                {copied ? "Copied!" : "Copy Code"}
+              </TooltipContent>
+            </Tooltip>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm">
+                  <Download className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-max">
+                <DropdownMenuItem
+                  onClick={handleDownloadHTML}
+                  className="py-2.5"
+                >
+                  <Download className="w-4 h-4 mr-3" />
+                  Download HTML
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={handleDownloadPDF}
+                  className="py-2.5"
+                >
+                  <Download className="w-4 h-4 mr-3" />
+                  Download Preview (PDF)
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={handleDownloadInlineHTML}
+                  className="py-2.5"
+                >
+                  <Download className="w-4 h-4 mr-3" />
+                  Download Pure HTML
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </TooltipProvider>
       </div>
 
-      {/* Code Display with scrolling */}
+      {/* Code Display */}
       <div className="flex-1 overflow-auto p-4">
         <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
           <pre className="p-4 text-xs font-mono text-gray-800 overflow-auto max-h-full leading-relaxed">
@@ -172,7 +289,7 @@ export const SourceCodeView: React.FC<SourceCodeViewProps> = ({ template }) => {
       </div>
 
       {/* Stats Footer */}
-      <div className="bg-white border-t border-gray-200 p-4 text-sm text-gray-600 flex justify-between flex-shrink-0">
+      <div className="bg-white border-t border-gray-200 p-4 text-sm text-gray-600 flex justify-between">
         <span>Lines: {htmlContent.split("\n").length}</span>
         <span>Characters: {htmlContent.length}</span>
         <span>Blocks: {template.blocks.length}</span>
