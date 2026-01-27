@@ -33,34 +33,37 @@ export const SourceCodeView: React.FC<SourceCodeViewProps> = ({ template }) => {
       return;
     }
 
-    navigator.clipboard.writeText(htmlContent).then(() => {
-      console.log("Content copied to clipboard");
-      setCopied(true);
-      setOpenTooltip(true);
-      setTimeout(() => {
-        setCopied(false);
-        setOpenTooltip(false);
-      }, 2000);
-    }).catch((err) => {
-      console.error("Failed to copy:", err);
-      // Fallback: use old method
-      const textArea = document.createElement("textarea");
-      textArea.value = htmlContent;
-      document.body.appendChild(textArea);
-      textArea.select();
-      try {
-        document.execCommand("copy");
+    navigator.clipboard
+      .writeText(htmlContent)
+      .then(() => {
+        console.log("Content copied to clipboard");
         setCopied(true);
         setOpenTooltip(true);
         setTimeout(() => {
           setCopied(false);
           setOpenTooltip(false);
         }, 2000);
-      } catch (err) {
-        console.error("Fallback copy failed:", err);
-      }
-      document.body.removeChild(textArea);
-    });
+      })
+      .catch((err) => {
+        console.error("Failed to copy:", err);
+        // Fallback: use old method
+        const textArea = document.createElement("textarea");
+        textArea.value = htmlContent;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand("copy");
+          setCopied(true);
+          setOpenTooltip(true);
+          setTimeout(() => {
+            setCopied(false);
+            setOpenTooltip(false);
+          }, 2000);
+        } catch (err) {
+          console.error("Fallback copy failed:", err);
+        }
+        document.body.removeChild(textArea);
+      });
   }, [htmlContent]);
 
   const handleDownloadHTML = () => {
@@ -86,7 +89,7 @@ export const SourceCodeView: React.FC<SourceCodeViewProps> = ({ template }) => {
 </head>
 <body style="background-color: ${template.backgroundColor || "#ffffff"}; padding: ${template.padding || 0}px; font-family: Arial, sans-serif; margin: 0;">
   <div style="max-width: 600px; margin: 0 auto;">
-${htmlContent.substring(htmlContent.indexOf("<div style=\"max-width:"), htmlContent.lastIndexOf("</div>") + 6)}
+${htmlContent.substring(htmlContent.indexOf('<div style="max-width:'), htmlContent.lastIndexOf("</div>") + 6)}
   </div>
 </body>
 </html>`;
@@ -213,7 +216,9 @@ ${htmlContent.substring(htmlContent.indexOf("<div style=\"max-width:"), htmlCont
       }
     }
 
-    toast.success("PDF preview opened. Use your browser's print dialog to save as PDF");
+    toast.success(
+      "PDF preview opened. Use your browser's print dialog to save as PDF",
+    );
   };
 
   return (
@@ -232,11 +237,7 @@ ${htmlContent.substring(htmlContent.indexOf("<div style=\"max-width:"), htmlCont
           <div className="flex items-center gap-2">
             <Tooltip open={openTooltip} onOpenChange={setOpenTooltip}>
               <TooltipTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleCopy}
-                >
+                <Button variant="outline" size="sm" onClick={handleCopy}>
                   <Copy className="w-4 h-4" />
                 </Button>
               </TooltipTrigger>
@@ -246,23 +247,29 @@ ${htmlContent.substring(htmlContent.indexOf("<div style=\"max-width:"), htmlCont
             </Tooltip>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                >
+                <Button variant="outline" size="sm">
                   <Download className="w-4 h-4" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-max">
-                <DropdownMenuItem onClick={handleDownloadHTML} className="py-2.5">
+                <DropdownMenuItem
+                  onClick={handleDownloadHTML}
+                  className="py-2.5"
+                >
                   <Download className="w-4 h-4 mr-3" />
                   Download HTML
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleDownloadPDF} className="py-2.5">
+                <DropdownMenuItem
+                  onClick={handleDownloadPDF}
+                  className="py-2.5"
+                >
                   <Download className="w-4 h-4 mr-3" />
                   Download Preview (PDF)
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleDownloadInlineHTML} className="py-2.5">
+                <DropdownMenuItem
+                  onClick={handleDownloadInlineHTML}
+                  className="py-2.5"
+                >
                   <Download className="w-4 h-4 mr-3" />
                   Download Pure HTML
                 </DropdownMenuItem>

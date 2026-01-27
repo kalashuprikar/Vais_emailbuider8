@@ -32,15 +32,7 @@ import {
   generateId,
   renderTemplateToHTML,
 } from "./utils";
-import {
-  Save,
-  Eye,
-  Edit,
-  Trash2,
-  Plus,
-  ChevronLeft,
-  Code,
-} from "lucide-react";
+import { Save, Eye, Edit, Trash2, Plus, ChevronLeft, Code } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { EmailCanvas } from "./EmailCanvas";
 import { SourceCodeView } from "./SourceCodeView";
