@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import { EmailTemplate } from "./types";
 import { renderTemplateToHTML } from "./utils";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from "@/components/ui/tooltip";
 import { Copy, Download } from "lucide-react";
 
 interface SourceCodeViewProps {
