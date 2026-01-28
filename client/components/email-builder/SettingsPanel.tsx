@@ -139,20 +139,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   >
                     Width
                   </Label>
-                  <div className="flex gap-2 items-center">
-                    <button
-                      onClick={() => {
-                        const newWidth = Math.max(1, (block.width ?? 100) - 1);
-                        onBlockUpdate({
-                          ...block,
-                          width: newWidth,
-                        });
-                      }}
-                      className="p-1 border border-gray-300 rounded hover:bg-gray-100 transition-colors"
-                      title="Decrease width"
-                    >
-                      <ChevronDown size={16} />
-                    </button>
+                  <div className="flex gap-2">
                     <Input
                       id="titleWidth"
                       type="text"
@@ -170,27 +157,38 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                             width: 100,
                           });
                         } else {
+                          const num = parseInt(numericValue);
+                          const maxValue = block.widthUnit === "%" ? 100 : 1000;
+                          if (num <= maxValue) {
+                            onBlockUpdate({
+                              ...block,
+                              width: num,
+                            });
+                          }
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "ArrowUp") {
+                          e.preventDefault();
+                          const currentWidth = block.width ?? 100;
+                          const maxValue = block.widthUnit === "%" ? 100 : 1000;
+                          const newWidth = Math.min(currentWidth + 1, maxValue);
                           onBlockUpdate({
                             ...block,
-                            width: parseInt(numericValue),
+                            width: newWidth,
+                          });
+                        } else if (e.key === "ArrowDown") {
+                          e.preventDefault();
+                          const currentWidth = block.width ?? 100;
+                          const newWidth = Math.max(1, currentWidth - 1);
+                          onBlockUpdate({
+                            ...block,
+                            width: newWidth,
                           });
                         }
                       }}
                       className="flex-1 focus:ring-valasys-orange focus:ring-2"
                     />
-                    <button
-                      onClick={() => {
-                        const newWidth = (block.width ?? 100) + 1;
-                        onBlockUpdate({
-                          ...block,
-                          width: newWidth,
-                        });
-                      }}
-                      className="p-1 border border-gray-300 rounded hover:bg-gray-100 transition-colors"
-                      title="Increase width"
-                    >
-                      <ChevronUp size={16} />
-                    </button>
                     <select
                       value={block.widthUnit}
                       onChange={(e) =>
