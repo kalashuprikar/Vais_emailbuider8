@@ -40,7 +40,10 @@ export const ImageBlockComponent: React.FC<ImageBlockComponentProps> = ({
             alt={block.alt || "Image"}
             style={{
               width: `${block.width}${block.widthUnit}`,
-              height: block.heightUnit === "%" ? `${block.height}${block.heightUnit}` : `${block.height}px`,
+              height:
+                block.heightUnit === "%"
+                  ? `${block.height}${block.heightUnit}`
+                  : `${block.height}px`,
               display: block.alignment === "center" ? "block" : "inline",
               margin: block.alignment === "center" ? "0 auto" : "0",
               maxWidth: "100%",

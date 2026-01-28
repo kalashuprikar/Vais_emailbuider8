@@ -26,10 +26,18 @@ export const TitleBlockComponent: React.FC<TitleBlockComponentProps> = ({
     userSelect: "none" as const,
     width: block.width ? `${block.width}${block.widthUnit || "%"}` : "100%",
     margin: `${block.margin || 0}px`,
-    marginLeft: isNaN(block.marginLeft as any) ? block.margin || 0 : block.marginLeft,
-    marginRight: isNaN(block.marginRight as any) ? block.margin || 0 : block.marginRight,
-    marginTop: isNaN(block.marginTop as any) ? block.margin || 0 : block.marginTop,
-    marginBottom: isNaN(block.marginBottom as any) ? block.margin || 0 : block.marginBottom,
+    marginLeft: isNaN(block.marginLeft as any)
+      ? block.margin || 0
+      : block.marginLeft,
+    marginRight: isNaN(block.marginRight as any)
+      ? block.margin || 0
+      : block.marginRight,
+    marginTop: isNaN(block.marginTop as any)
+      ? block.margin || 0
+      : block.marginTop,
+    marginBottom: isNaN(block.marginBottom as any)
+      ? block.margin || 0
+      : block.marginBottom,
   };
 
   const textStyle = {
@@ -42,7 +50,9 @@ export const TitleBlockComponent: React.FC<TitleBlockComponentProps> = ({
     padding: `${block.paddingTop || block.padding || 8}px ${block.paddingRight || block.padding || 8}px ${block.paddingBottom || block.padding || 8}px ${block.paddingLeft || block.padding || 8}px`,
     userSelect: "none" as const,
     borderRadius: block.borderRadius ? `${block.borderRadius}px` : undefined,
-    border: block.borderWidth ? `${block.borderWidth}px solid ${block.borderColor}` : undefined,
+    border: block.borderWidth
+      ? `${block.borderWidth}px solid ${block.borderColor}`
+      : undefined,
   };
 
   return (
@@ -62,9 +72,7 @@ export const TitleBlockComponent: React.FC<TitleBlockComponentProps> = ({
           style={textStyle}
         />
       ) : (
-        <h1 style={textStyle}>
-          {block.content}
-        </h1>
+        <h1 style={textStyle}>{block.content}</h1>
       )}
       {isSelected && !isEditing && (
         <div className="absolute top-1 right-1 bg-valasys-orange text-white p-1 rounded">

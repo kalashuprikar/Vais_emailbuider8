@@ -482,7 +482,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     variant="outline"
                     size="sm"
                     className="w-full text-xs"
-                    onClick={() => document.getElementById("bgImageUpload")?.click()}
+                    onClick={() =>
+                      document.getElementById("bgImageUpload")?.click()
+                    }
                   >
                     Add image
                   </Button>
@@ -1071,7 +1073,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     variant="outline"
                     size="sm"
                     className="w-full text-xs"
-                    onClick={() => document.getElementById("bgImageUpload")?.click()}
+                    onClick={() =>
+                      document.getElementById("bgImageUpload")?.click()
+                    }
                   >
                     Add image
                   </Button>
@@ -1333,7 +1337,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     variant="link"
                     size="sm"
                     className="text-xs h-auto p-0 text-valasys-orange"
-                    onClick={() => document.getElementById("imageBlockUpload")?.click()}
+                    onClick={() =>
+                      document.getElementById("imageBlockUpload")?.click()
+                    }
                   >
                     Upload
                   </Button>
@@ -1341,7 +1347,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     variant="link"
                     size="sm"
                     className="text-xs h-auto p-0 text-valasys-orange"
-                    onClick={() => document.getElementById("imageBlockUpload")?.click()}
+                    onClick={() =>
+                      document.getElementById("imageBlockUpload")?.click()
+                    }
                   >
                     Replace
                   </Button>
@@ -1354,7 +1362,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     alt="Preview"
                     className="max-w-full max-h-full"
                     onError={() => (
-                      <div className="text-gray-400 text-xs">Image failed to load</div>
+                      <div className="text-gray-400 text-xs">
+                        Image failed to load
+                      </div>
                     )}
                   />
                 </div>
@@ -1368,7 +1378,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 </div>
               )}
               <div className="text-xs text-gray-500 mb-3">
-                {(block as any).src ? "Image added" : "Upload or paste URL to add image"}
+                {(block as any).src
+                  ? "Image added"
+                  : "Upload or paste URL to add image"}
               </div>
             </div>
 
