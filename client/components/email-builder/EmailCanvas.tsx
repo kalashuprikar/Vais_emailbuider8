@@ -59,7 +59,7 @@ export const EmailCanvas: React.FC<EmailCanvasProps> = ({
       <div className="max-w-2xl mx-auto">
         {/* Template Settings */}
         <div className="bg-white border border-gray-200 rounded-t-lg p-4 overflow-x-hidden">
-          <div className="flex flex-col gap-3">
+          <div className="flex gap-3">
             <div className="flex-1 min-w-0">
               <label
                 htmlFor="subject"
