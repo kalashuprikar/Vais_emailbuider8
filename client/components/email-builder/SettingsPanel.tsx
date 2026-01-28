@@ -6315,9 +6315,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
 
             {/* Styling Section */}
             <div>
-              <h4 className="text-xs font-bold text-gray-900 mb-3">
-                Styling
-              </h4>
+              <h4 className="text-xs font-bold text-gray-900 mb-3">Styling</h4>
               <div className="space-y-3">
                 <div>
                   <Label className="text-xs text-gray-700 mb-1 block">
