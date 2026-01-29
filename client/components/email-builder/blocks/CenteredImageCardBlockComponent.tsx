@@ -244,7 +244,9 @@ export const CenteredImageCardBlockComponent: React.FC<
       onMouseLeave={() => setIsHoveringSection(false)}
       style={{
         backgroundColor: block.backgroundColor,
-        border: isHoveringSection ? "2px dashed rgb(255, 106, 0)" : `${block.borderWidth}px solid ${block.borderColor}`,
+        border: isHoveringSection
+          ? "2px dashed rgb(255, 106, 0)"
+          : `${block.borderWidth}px solid ${block.borderColor}`,
         borderRadius: `${block.borderRadius}px`,
         margin: `${block.margin}px`,
         padding: `${block.padding}px`,
@@ -394,7 +396,9 @@ export const CenteredImageCardBlockComponent: React.FC<
                   onMouseLeave={() => setIsHoveringTitle(false)}
                   className="font-bold text-xl text-gray-900 cursor-pointer transition-all p-3 rounded"
                   style={{
-                    border: isHoveringTitle ? "2px dashed rgb(255, 106, 0)" : "none",
+                    border: isHoveringTitle
+                      ? "2px dashed rgb(255, 106, 0)"
+                      : "none",
                   }}
                 >
                   {block.title}
@@ -423,7 +427,9 @@ export const CenteredImageCardBlockComponent: React.FC<
                   onMouseLeave={() => setIsHoveringDescription(false)}
                   className="text-sm text-gray-600 cursor-pointer transition-all p-3 rounded whitespace-pre-wrap break-words"
                   style={{
-                    border: isHoveringDescription ? "2px dashed rgb(255, 106, 0)" : "none",
+                    border: isHoveringDescription
+                      ? "2px dashed rgb(255, 106, 0)"
+                      : "none",
                   }}
                 >
                   {block.description}
@@ -488,7 +494,9 @@ export const CenteredImageCardBlockComponent: React.FC<
                   onMouseLeave={() => setIsHoveringButtonLink(false)}
                   className="text-xs text-gray-500 cursor-pointer p-3 rounded break-all transition-all"
                   style={{
-                    border: isHoveringButtonLink ? "2px dashed rgb(255, 106, 0)" : "none",
+                    border: isHoveringButtonLink
+                      ? "2px dashed rgb(255, 106, 0)"
+                      : "none",
                   }}
                 >
                   {block.buttonLink || "#"}

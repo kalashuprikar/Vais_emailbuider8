@@ -77,7 +77,6 @@ export const DraggableBlock: React.FC<DraggableBlockProps> = ({
         isOver && "ring-2 ring-valasys-orange rounded-lg",
       )}
     >
-
       <BlockRenderer
         block={block}
         isSelected={isSelected}

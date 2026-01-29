@@ -114,7 +114,9 @@ export const SplitImageCardBlockComponent: React.FC<
                     onMouseLeave={() => setIsHoveringTitle(false)}
                     className="font-bold text-lg text-gray-900 cursor-pointer p-3 rounded transition-all"
                     style={{
-                      border: isHoveringTitle ? "2px dashed rgb(255, 106, 0)" : "none",
+                      border: isHoveringTitle
+                        ? "2px dashed rgb(255, 106, 0)"
+                        : "none",
                     }}
                   >
                     {block.title}
@@ -140,7 +142,9 @@ export const SplitImageCardBlockComponent: React.FC<
                     onMouseLeave={() => setIsHoveringDescription(false)}
                     className="text-sm text-gray-600 cursor-pointer p-3 rounded whitespace-pre-line transition-all"
                     style={{
-                      border: isHoveringDescription ? "2px dashed rgb(255, 106, 0)" : "none",
+                      border: isHoveringDescription
+                        ? "2px dashed rgb(255, 106, 0)"
+                        : "none",
                     }}
                   >
                     {block.description}
@@ -193,7 +197,9 @@ export const SplitImageCardBlockComponent: React.FC<
                     onMouseLeave={() => setIsHoveringButtonLink(false)}
                     className="text-xs text-gray-500 cursor-pointer p-3 rounded break-all transition-all"
                     style={{
-                      border: isHoveringButtonLink ? "2px dashed rgb(255, 106, 0)" : "none",
+                      border: isHoveringButtonLink
+                        ? "2px dashed rgb(255, 106, 0)"
+                        : "none",
                     }}
                   >
                     {block.buttonLink || "#"}
