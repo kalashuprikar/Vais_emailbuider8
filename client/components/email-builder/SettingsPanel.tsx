@@ -1440,6 +1440,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   <img
                     src={(block as any).src}
                     alt="Preview"
+                    crossOrigin="anonymous"
                     className="max-w-full max-h-full"
                     onError={(e) => {
                       console.error(
