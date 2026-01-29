@@ -120,15 +120,11 @@ interface SectionsPanelProps {
 interface DraggableTemplateProps {
   template: Template;
   onAddBlocks: (blocks: ContentBlock[]) => void;
-  isSelected: boolean;
-  onSelect: (templateId: string) => void;
 }
 
 const DraggableTemplateCard: React.FC<DraggableTemplateProps> = ({
   template,
   onAddBlocks,
-  isSelected,
-  onSelect,
 }) => {
   const [{ isDragging }, drag] = useDrag(
     () => ({
@@ -143,19 +139,12 @@ const DraggableTemplateCard: React.FC<DraggableTemplateProps> = ({
     [template],
   );
 
-  const handleClick = () => {
-    onSelect(template.id);
-    onAddBlocks(template.blocks());
-  };
-
   return (
     <div
       ref={drag}
-      className={`flex flex-col rounded-lg overflow-hidden transition-all cursor-move ${
-        isSelected
-          ? "border border-gray-900"
-          : "border border-gray-200 hover:border-dashed hover:border-gray-400"
-      } ${isDragging ? "opacity-50" : ""}`}
+      className={`flex flex-col border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-move ${
+        isDragging ? "opacity-50" : ""
+      }`}
     >
       <div className="w-full h-32 bg-gray-200 overflow-hidden">
         <img
@@ -172,7 +161,7 @@ const DraggableTemplateCard: React.FC<DraggableTemplateProps> = ({
           {template.description}
         </p>
         <button
-          onClick={handleClick}
+          onClick={() => onAddBlocks(template.blocks())}
           className="w-full px-3 py-2 bg-valasys-orange text-white text-xs font-medium rounded hover:bg-orange-600 transition-colors"
         >
           Use template
