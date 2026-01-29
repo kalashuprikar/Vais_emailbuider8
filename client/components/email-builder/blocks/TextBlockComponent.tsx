@@ -51,6 +51,7 @@ export const TextBlockComponent: React.FC<TextBlockComponentProps> = ({
         isSelected ? "ring-2 ring-valasys-orange" : ""
       }`}
       onClick={handleClick}
+      onDoubleClick={handleDoubleClick}
       style={{
         margin: `${block.margin}px`,
         display: "block",
@@ -61,6 +62,7 @@ export const TextBlockComponent: React.FC<TextBlockComponentProps> = ({
         <textarea
           value={block.content}
           onChange={(e) => onContentChange(e.target.value)}
+          onBlur={() => onEditingChange?.(null)}
           autoFocus
           className="w-full border border-valasys-orange rounded px-2 py-1 font-serif"
           style={{
@@ -112,7 +114,10 @@ export const TextBlockComponent: React.FC<TextBlockComponentProps> = ({
         </p>
       )}
       {isSelected && !isEditing && (
-        <div className="absolute top-1 right-1 bg-valasys-orange text-white p-1 rounded">
+        <div
+          onClick={handleEditIconClick}
+          className="absolute top-1 right-1 bg-valasys-orange text-white p-1 rounded cursor-pointer hover:bg-valasys-orange/90 transition-colors"
+        >
           <Edit2 className="w-3 h-3" />
         </div>
       )}
