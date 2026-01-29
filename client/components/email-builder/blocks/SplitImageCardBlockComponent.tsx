@@ -118,17 +118,15 @@ export const SplitImageCardBlockComponent: React.FC<
                       >
                         <Copy className="w-3 h-3 text-gray-700" />
                       </Button>
-                      {onBlockDelete && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-7 w-7 p-0 hover:bg-red-100"
-                          title="Delete"
-                          onClick={onBlockDelete}
-                        >
-                          <Trash2 className="w-3 h-3 text-red-600" />
-                        </Button>
-                      )}
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 w-7 p-0 hover:bg-red-100"
+                        title="Delete"
+                        onClick={handleDeleteImage}
+                      >
+                        <Trash2 className="w-3 h-3 text-red-600" />
+                      </Button>
                     </div>
                   )}
                 </>
@@ -297,17 +295,15 @@ export const SplitImageCardBlockComponent: React.FC<
                       >
                         <Copy className="w-3 h-3 text-gray-700" />
                       </Button>
-                      {onBlockDelete && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-7 w-7 p-0 hover:bg-red-100"
-                          title="Delete"
-                          onClick={onBlockDelete}
-                        >
-                          <Trash2 className="w-3 h-3 text-red-600" />
-                        </Button>
-                      )}
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 w-7 p-0 hover:bg-red-100"
+                        title="Delete"
+                        onClick={handleDeleteImage}
+                      >
+                        <Trash2 className="w-3 h-3 text-red-600" />
+                      </Button>
                     </div>
                   )}
                 </>
