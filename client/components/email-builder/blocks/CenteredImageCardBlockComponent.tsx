@@ -17,7 +17,15 @@ interface CenteredImageCardBlockComponentProps {
 
 export const CenteredImageCardBlockComponent: React.FC<
   CenteredImageCardBlockComponentProps
-> = ({ block, isSelected, onBlockUpdate }) => {
+> = ({
+  block,
+  isSelected,
+  onBlockUpdate,
+  onAddBlock,
+  onDuplicate,
+  onDelete,
+  blockIndex = 0
+}) => {
   const [editMode, setEditMode] = useState<string | null>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
