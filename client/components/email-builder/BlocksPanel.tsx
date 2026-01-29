@@ -127,8 +127,9 @@ interface DraggableTemplateProps {
 const DraggableTemplateCard: React.FC<DraggableTemplateProps> = ({
   template,
   onAddBlocks,
+  isSelected,
+  onSelect,
 }) => {
-  const [isSelected, setIsSelected] = React.useState(false);
   const [{ isDragging }, drag] = useDrag(
     () => ({
       type: "template",
@@ -143,7 +144,7 @@ const DraggableTemplateCard: React.FC<DraggableTemplateProps> = ({
   );
 
   const handleClick = () => {
-    setIsSelected(true);
+    onSelect(template.id);
     onAddBlocks(template.blocks());
   };
 
