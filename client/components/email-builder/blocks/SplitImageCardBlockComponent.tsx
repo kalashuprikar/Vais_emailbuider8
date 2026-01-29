@@ -62,6 +62,11 @@ export const SplitImageCardBlockComponent: React.FC<
     }
   };
 
+  const handleDeleteImage = () => {
+    onBlockUpdate({ ...block, image: "" });
+    toast.success("Image deleted!");
+  };
+
   const isImageLeft = block.imagePosition === "left";
 
   return (
