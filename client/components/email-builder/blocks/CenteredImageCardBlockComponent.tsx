@@ -206,8 +206,8 @@ export const CenteredImageCardBlockComponent: React.FC<
           size="sm"
           className="h-7 w-7 p-0 hover:bg-gray-100"
           title="Copy"
-          onMouseDown={(e) => {
-            e.preventDefault();
+          onClick={(e) => {
+            e.stopPropagation();
             handleCopy();
           }}
         >
@@ -219,8 +219,8 @@ export const CenteredImageCardBlockComponent: React.FC<
           size="sm"
           className="h-7 w-7 p-0 hover:bg-red-100"
           title="Delete"
-          onMouseDown={(e) => {
-            e.preventDefault();
+          onClick={(e) => {
+            e.stopPropagation();
             handleDelete();
           }}
         >

@@ -174,7 +174,8 @@ export const BlockActions: React.FC<BlockActionsProps> = ({
         variant="ghost"
         size="sm"
         className="h-8 w-8 p-0 hover:bg-gray-100"
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           onDuplicate(block, blockIndex + 1);
         }}
         title="Duplicate block"
@@ -187,7 +188,10 @@ export const BlockActions: React.FC<BlockActionsProps> = ({
         variant="ghost"
         size="sm"
         className="h-8 w-8 p-0 hover:bg-red-100"
-        onClick={onDelete}
+        onClick={(e) => {
+          e.stopPropagation();
+          onDelete();
+        }}
         title="Delete block"
       >
         <Trash2 className="w-4 h-4 text-red-600" />
