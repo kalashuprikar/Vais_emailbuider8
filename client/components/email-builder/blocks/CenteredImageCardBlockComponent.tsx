@@ -93,7 +93,7 @@ export const CenteredImageCardBlockComponent: React.FC<
             ) : (
               <h3
                 onClick={() => setEditMode("title")}
-                className="font-bold text-xl text-gray-900 cursor-pointer hover:text-valasys-orange transition-colors p-2 rounded hover:bg-orange-50"
+                className="font-bold text-xl text-gray-900 cursor-pointer hover:text-valasys-orange transition-colors p-2 rounded"
               >
                 {block.title}
               </h3>
@@ -114,7 +114,7 @@ export const CenteredImageCardBlockComponent: React.FC<
             ) : (
               <p
                 onClick={() => setEditMode("description")}
-                className="text-sm text-gray-600 cursor-pointer hover:text-valasys-orange transition-colors p-2 rounded hover:bg-orange-50 whitespace-pre-wrap break-words"
+                className="text-sm text-gray-600 cursor-pointer hover:text-valasys-orange transition-colors p-2 rounded whitespace-pre-wrap break-words"
               >
                 {block.description}
               </p>
