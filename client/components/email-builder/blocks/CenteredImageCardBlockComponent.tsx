@@ -59,38 +59,47 @@ export const CenteredImageCardBlockComponent: React.FC<
       else if (sectionType === "buttonText") contentToCopy = block.buttonText;
       else if (sectionType === "image") contentToCopy = block.image;
 
-      if (contentToCopy) {
-        try {
-          // Use the modern clipboard API
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard
-              .writeText(contentToCopy)
-              .then(() => {
-                console.log("Copied successfully:", contentToCopy);
-              })
-              .catch((err) => {
-                console.error("Failed to copy:", err);
-                // Fallback to older method
-                const textArea = document.createElement("textarea");
-                textArea.value = contentToCopy;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand("copy");
-                document.body.removeChild(textArea);
-              });
-          } else {
-            // Fallback for older browsers
-            const textArea = document.createElement("textarea");
-            textArea.value = contentToCopy;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand("copy");
-            document.body.removeChild(textArea);
-            console.log("Copied using fallback method:", contentToCopy);
-          }
-        } catch (err) {
-          console.error("Copy failed:", err);
+      if (!contentToCopy) {
+        toast.error("Nothing to copy");
+        return;
+      }
+
+      // Try modern clipboard API first
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard
+          .writeText(contentToCopy)
+          .then(() => {
+            toast.success("Copied to clipboard!");
+          })
+          .catch(() => {
+            // Fallback to older method if modern API fails
+            copyUsingFallback(contentToCopy);
+          });
+      } else {
+        // Use fallback for older browsers
+        copyUsingFallback(contentToCopy);
+      }
+    };
+
+    const copyUsingFallback = (text: string) => {
+      try {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-9999px";
+        textArea.style.top = "-9999px";
+        document.body.appendChild(textArea);
+        textArea.select();
+        const successful = document.execCommand("copy");
+        document.body.removeChild(textArea);
+
+        if (successful) {
+          toast.success("Copied to clipboard!");
+        } else {
+          toast.error("Failed to copy");
         }
+      } catch (err) {
+        toast.error("Failed to copy");
       }
     };
 
