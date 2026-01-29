@@ -375,7 +375,7 @@ const SectionsPanel: React.FC<SectionsPanelProps> = ({ onAddBlock }) => {
             </button>
 
             {expandedSections.has(section.title) && (
-              <div className="px-4 py-3 bg-gray-50 border-t border-gray-200">
+              <div className="px-4 py-3 bg-white border-t border-gray-200">
                 {section.templates ? (
                   <div className="flex flex-col gap-3">
                     {section.templates.map((template) => (
