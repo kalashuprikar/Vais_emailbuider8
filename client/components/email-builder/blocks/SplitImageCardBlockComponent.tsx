@@ -258,23 +258,53 @@ export const SplitImageCardBlockComponent: React.FC<
           </div>
 
           {!isImageLeft && (
-            <div className="md:w-2/5 relative group">
+            <div
+              className="md:w-2/5 relative group order-last"
+              onMouseEnter={() => setIsHoveringImage(true)}
+              onMouseLeave={() => setIsHoveringImage(false)}
+            >
               {block.image ? (
                 <>
-                  <img
-                    src={block.image}
-                    alt={block.imageAlt}
-                    className="w-full h-auto rounded"
-                  />
-                  <label className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 opacity-0 group-hover:opacity-100 transition-all cursor-pointer rounded">
-                    <Upload className="w-6 h-6 text-white" />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
+                  <div className="relative">
+                    <img
+                      src={block.image}
+                      alt={block.imageAlt}
+                      className="w-full h-auto rounded"
                     />
-                  </label>
+                    <label className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 opacity-0 group-hover:opacity-100 transition-all cursor-pointer rounded">
+                      <Upload className="w-6 h-6 text-white" />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+                  {isHoveringImage && (
+                    <div className="flex items-center gap-1 bg-white border border-gray-200 rounded-lg p-2 shadow-sm mt-2 w-fit">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 w-7 p-0 hover:bg-gray-100"
+                        title="Copy"
+                        onClick={handleCopyBlock}
+                      >
+                        <Copy className="w-3 h-3 text-gray-700" />
+                      </Button>
+                      {onBlockDelete && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-7 w-7 p-0 hover:bg-red-100"
+                          title="Delete"
+                          onClick={onBlockDelete}
+                        >
+                          <Trash2 className="w-3 h-3 text-red-600" />
+                        </Button>
+                      )}
+                    </div>
+                  )}
                 </>
               ) : (
                 <label className="flex items-center justify-center w-full h-40 border-2 border-dashed border-gray-300 rounded cursor-pointer hover:bg-gray-50">
