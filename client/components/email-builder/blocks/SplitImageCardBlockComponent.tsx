@@ -104,7 +104,7 @@ export const SplitImageCardBlockComponent: React.FC<
                     onBlur={() => setEditMode(null)}
                     autoFocus
                     className="font-bold text-lg focus:outline-none"
-                    style={{ border: "2px solid rgb(255, 106, 0) !important" }}
+                    style={{ border: "2px solid rgb(255, 106, 0)" }}
                   />
                 ) : (
                   <p
@@ -162,7 +162,7 @@ export const SplitImageCardBlockComponent: React.FC<
                     onBlur={() => setEditMode(null)}
                     autoFocus
                     className="focus:outline-none"
-                    style={{ border: "2px solid rgb(255, 106, 0) !important" }}
+                    style={{ border: "2px solid rgb(255, 106, 0)" }}
                   />
                 ) : (
                   <button
@@ -190,7 +190,7 @@ export const SplitImageCardBlockComponent: React.FC<
                     autoFocus
                     placeholder="https://example.com"
                     className="text-sm focus:outline-none"
-                    style={{ border: "2px solid rgb(255, 106, 0) !important" }}
+                    style={{ border: "2px solid rgb(255, 106, 0)" }}
                   />
                 ) : (
                   <p
