@@ -31,6 +31,10 @@ interface BlockRendererProps {
   onBlockSelect?: (blockId: string) => void;
   onEditingBlockChange?: (id: string | null) => void;
   onFooterElementSelect?: (element: string | null) => void;
+  onAddBlock?: (block: ContentBlock, position: number) => void;
+  onDuplicate?: (block: ContentBlock, position: number) => void;
+  onDelete?: (blockId: string) => void;
+  blockIndex?: number;
 }
 
 export const BlockRenderer: React.FC<BlockRendererProps> = ({
