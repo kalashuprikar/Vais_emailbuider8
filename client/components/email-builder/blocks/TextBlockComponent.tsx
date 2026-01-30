@@ -25,6 +25,8 @@ export const TextBlockComponent: React.FC<TextBlockComponentProps> = ({
   onDelete,
   blockIndex = 0,
 }) => {
+  const [isHovering, setIsHovering] = React.useState(false);
+
   const getWidthStyle = () => {
     if (block.widthUnit === "%") {
       return `${block.width}%`;
