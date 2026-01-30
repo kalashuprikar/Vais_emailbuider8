@@ -353,32 +353,32 @@ export const SplitImageCardBlockComponent: React.FC<
               {(block.buttonText || editMode === "buttonText") && (
                 <div>
                   {editMode === "buttonText" ? (
-                    <Input
-                      value={block.buttonText}
-                      onChange={(e) =>
-                        handleFieldChange("buttonText", e.target.value)
-                      }
-                      onBlur={() => setTimeout(() => setEditMode(null), 200)}
-                      onMouseDown={(e) => e.stopPropagation()}
-                      autoFocus
-                      className="focus:outline-none"
-                      style={{ border: "2px solid rgb(255, 106, 0)" }}
-                    />
-                  ) : (
                     <>
-                      <button
-                        onClick={() => setEditMode("buttonText")}
-                        onMouseEnter={() => setIsHoveringButton(true)}
-                        onMouseLeave={() => setIsHoveringButton(false)}
-                        className="py-2 px-4 bg-valasys-orange text-white rounded text-sm font-bold hover:bg-orange-600 cursor-pointer transition-all"
-                        style={{
-                          border: isHoveringButton ? "1px dashed white" : "none",
-                        }}
-                      >
-                        {block.buttonText}
-                      </button>
-                      {isHoveringButton && <div className="mt-2"><SectionToolbar sectionType="buttonText" /></div>}
+                      <Input
+                        value={block.buttonText}
+                        onChange={(e) =>
+                          handleFieldChange("buttonText", e.target.value)
+                        }
+                        onBlur={() => setTimeout(() => setEditMode(null), 200)}
+                        onMouseDown={(e) => e.stopPropagation()}
+                        autoFocus
+                        className="focus:outline-none"
+                        style={{ border: "2px solid rgb(255, 106, 0)" }}
+                      />
+                      <div className="mt-2"><SectionToolbar sectionType="buttonText" /></div>
                     </>
+                  ) : (
+                    <button
+                      onClick={() => setEditMode("buttonText")}
+                      onMouseEnter={() => setIsHoveringButton(true)}
+                      onMouseLeave={() => setIsHoveringButton(false)}
+                      className="py-2 px-4 bg-valasys-orange text-white rounded text-sm font-bold hover:bg-orange-600 cursor-pointer transition-all"
+                      style={{
+                        border: isHoveringButton ? "1px dashed white" : "none",
+                      }}
+                    >
+                      {block.buttonText}
+                    </button>
                   )}
                 </div>
               )}
