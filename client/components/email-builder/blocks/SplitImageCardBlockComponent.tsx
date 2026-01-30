@@ -193,9 +193,6 @@ export const SplitImageCardBlockComponent: React.FC<
                       {block.title}
                     </p>
                   )}
-                  {editMode === "title" && (
-                    <SectionToolbar sectionType="title" />
-                  )}
                 </div>
               )}
 
@@ -238,9 +235,6 @@ export const SplitImageCardBlockComponent: React.FC<
                       {block.description}
                     </p>
                   )}
-                  {editMode === "description" && (
-                    <SectionToolbar sectionType="description" />
-                  )}
                 </div>
               )}
 
@@ -270,9 +264,6 @@ export const SplitImageCardBlockComponent: React.FC<
                     >
                       {block.buttonText}
                     </button>
-                  )}
-                  {editMode === "buttonText" && (
-                    <SectionToolbar sectionType="buttonText" />
                   )}
                 </div>
               )}
@@ -306,9 +297,6 @@ export const SplitImageCardBlockComponent: React.FC<
                     >
                       {block.buttonLink || "#"}
                     </p>
-                  )}
-                  {editMode === "buttonLink" && (
-                    <SectionToolbar sectionType="buttonLink" />
                   )}
                 </div>
               )}
