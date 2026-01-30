@@ -93,7 +93,7 @@ export const DraggableBlock: React.FC<DraggableBlockProps> = ({
       />
 
       {isSelected && (
-        <div className="px-4 py-2">
+        <div className="relative z-50 px-4 py-3 bg-gray-50 border-t border-gray-200">
           <BlockActions
             block={block}
             blockIndex={index}
