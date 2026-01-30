@@ -323,26 +323,52 @@ export const SplitImageCardBlockComponent: React.FC<
                     alt={block.imageAlt}
                     className="w-full h-auto rounded"
                   />
-                  <label
-                    className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 opacity-0 group-hover:opacity-100 transition-all cursor-pointer rounded"
-                    onClick={(e) => {
-                      if ((e.target as HTMLElement).tagName === "LABEL") {
-                        (
-                          e.currentTarget.querySelector(
-                            'input[type="file"]',
-                          ) as HTMLInputElement
-                        )?.click();
-                      }
-                    }}
-                  >
-                    <Upload className="w-6 h-6 text-white" />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                    />
-                  </label>
+                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 opacity-0 group-hover:opacity-100 transition-all rounded">
+                    <div className="flex gap-3 items-center">
+                      <label
+                        className="flex items-center justify-center cursor-pointer p-2 hover:bg-black hover:bg-opacity-60 rounded transition-all"
+                        onClick={(e) => {
+                          if ((e.target as HTMLElement).tagName === "LABEL") {
+                            (
+                              e.currentTarget.querySelector(
+                                'input[type="file"]',
+                              ) as HTMLInputElement
+                            )?.click();
+                          }
+                        }}
+                      >
+                        <Upload className="w-6 h-6 text-white" />
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageUpload}
+                          className="hidden"
+                        />
+                      </label>
+                      {onDuplicate && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onDuplicate(block, blockIndex + 1);
+                          }}
+                          className="flex items-center justify-center cursor-pointer p-2 hover:bg-black hover:bg-opacity-60 rounded transition-all"
+                          title="Copy block"
+                        >
+                          <Copy className="w-6 h-6 text-white" />
+                        </button>
+                      )}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onBlockUpdate({ ...block, image: "" });
+                        }}
+                        className="flex items-center justify-center cursor-pointer p-2 hover:bg-black hover:bg-opacity-60 rounded transition-all"
+                        title="Delete image"
+                      >
+                        <Trash2 className="w-6 h-6 text-white" />
+                      </button>
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <div className="space-y-2">
@@ -601,26 +627,52 @@ export const SplitImageCardBlockComponent: React.FC<
                     alt={block.imageAlt}
                     className="w-full h-auto rounded"
                   />
-                  <label
-                    className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 opacity-0 group-hover:opacity-100 transition-all cursor-pointer rounded"
-                    onClick={(e) => {
-                      if ((e.target as HTMLElement).tagName === "LABEL") {
-                        (
-                          e.currentTarget.querySelector(
-                            'input[type="file"]',
-                          ) as HTMLInputElement
-                        )?.click();
-                      }
-                    }}
-                  >
-                    <Upload className="w-6 h-6 text-white" />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                    />
-                  </label>
+                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 opacity-0 group-hover:opacity-100 transition-all rounded">
+                    <div className="flex gap-3 items-center">
+                      <label
+                        className="flex items-center justify-center cursor-pointer p-2 hover:bg-black hover:bg-opacity-60 rounded transition-all"
+                        onClick={(e) => {
+                          if ((e.target as HTMLElement).tagName === "LABEL") {
+                            (
+                              e.currentTarget.querySelector(
+                                'input[type="file"]',
+                              ) as HTMLInputElement
+                            )?.click();
+                          }
+                        }}
+                      >
+                        <Upload className="w-6 h-6 text-white" />
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageUpload}
+                          className="hidden"
+                        />
+                      </label>
+                      {onDuplicate && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onDuplicate(block, blockIndex + 1);
+                          }}
+                          className="flex items-center justify-center cursor-pointer p-2 hover:bg-black hover:bg-opacity-60 rounded transition-all"
+                          title="Copy block"
+                        >
+                          <Copy className="w-6 h-6 text-white" />
+                        </button>
+                      )}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onBlockUpdate({ ...block, image: "" });
+                        }}
+                        className="flex items-center justify-center cursor-pointer p-2 hover:bg-black hover:bg-opacity-60 rounded transition-all"
+                        title="Delete image"
+                      >
+                        <Trash2 className="w-6 h-6 text-white" />
+                      </button>
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <div className="space-y-2">

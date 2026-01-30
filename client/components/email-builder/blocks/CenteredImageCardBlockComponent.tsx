@@ -411,15 +411,41 @@ export const CenteredImageCardBlockComponent: React.FC<
 
                 {/* Overlay on hover */}
                 {isHoveringImage && (
-                  <label className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 opacity-100 transition-all cursor-pointer rounded-lg">
-                    <Upload className="w-6 h-6 text-white" />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                    />
-                  </label>
+                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 opacity-100 transition-all rounded-lg">
+                    <div className="flex gap-3 items-center">
+                      <label className="flex items-center justify-center cursor-pointer p-2 hover:bg-black hover:bg-opacity-60 rounded transition-all">
+                        <Upload className="w-6 h-6 text-white" />
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageUpload}
+                          className="hidden"
+                        />
+                      </label>
+                      {onDuplicate && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onDuplicate(block, blockIndex + 1);
+                          }}
+                          className="flex items-center justify-center cursor-pointer p-2 hover:bg-black hover:bg-opacity-60 rounded transition-all"
+                          title="Copy block"
+                        >
+                          <Copy className="w-6 h-6 text-white" />
+                        </button>
+                      )}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onBlockUpdate({ ...block, image: "" });
+                        }}
+                        className="flex items-center justify-center cursor-pointer p-2 hover:bg-black hover:bg-opacity-60 rounded transition-all"
+                        title="Delete image"
+                      >
+                        <Trash2 className="w-6 h-6 text-white" />
+                      </button>
+                    </div>
+                  </div>
                 )}
 
                 {/* Resize Handles - Only show when hovering (Corners only) */}

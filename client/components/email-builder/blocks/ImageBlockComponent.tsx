@@ -1,12 +1,15 @@
 import React, { useRef, useState } from "react";
 import { ImageBlock } from "../types";
-import { Upload } from "lucide-react";
+import { Upload, Copy, Trash2 } from "lucide-react";
 
 interface ImageBlockComponentProps {
   block: ImageBlock;
   isSelected: boolean;
   onSrcChange: (src: string) => void;
   onDimensionChange: (width: number, height: number) => void;
+  onDuplicate?: (block: ImageBlock, position: number) => void;
+  onDelete?: (blockId: string) => void;
+  blockIndex?: number;
 }
 
 export const ImageBlockComponent: React.FC<ImageBlockComponentProps> = ({
@@ -14,10 +17,14 @@ export const ImageBlockComponent: React.FC<ImageBlockComponentProps> = ({
   isSelected,
   onSrcChange,
   onDimensionChange,
+  onDuplicate,
+  onDelete,
+  blockIndex = 0,
 }) => {
   const [isResizing, setIsResizing] = useState(false);
   const [startX, setStartX] = useState(0);
   const [startWidth, setStartWidth] = useState(block.width);
+  const [isHovering, setIsHovering] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,6 +105,7 @@ export const ImageBlockComponent: React.FC<ImageBlockComponentProps> = ({
     >
       {block.src ? (
         <div
+          className="group"
           style={{
             textAlign: block.alignment as any,
             position: "relative",
@@ -105,6 +113,8 @@ export const ImageBlockComponent: React.FC<ImageBlockComponentProps> = ({
             width: block.alignment === "center" ? "auto" : "auto",
             margin: block.alignment === "center" ? "0 auto" : "0",
           }}
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
         >
           <img
             src={block.src}
@@ -127,6 +137,44 @@ export const ImageBlockComponent: React.FC<ImageBlockComponentProps> = ({
               (e.target as HTMLImageElement).style.border = "2px solid red";
             }}
           />
+
+          {/* Hover Toolbar */}
+          {isHovering && (
+            <div
+              className="absolute top-0 right-0 flex gap-2 items-center bg-white border border-gray-300 rounded-lg p-2 shadow-lg z-50"
+              style={{
+                transform: "translateY(-100%)",
+                marginTop: "-8px",
+              }}
+              onMouseEnter={() => setIsHovering(true)}
+              onMouseLeave={() => setIsHovering(false)}
+            >
+              {onDuplicate && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDuplicate(block, blockIndex + 1);
+                  }}
+                  className="text-gray-700 hover:text-blue-600 transition-colors p-1"
+                  title="Copy block"
+                >
+                  <Copy className="w-4 h-4" />
+                </button>
+              )}
+              {onDelete && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete(block.id);
+                  }}
+                  className="text-gray-700 hover:text-red-600 transition-colors p-1"
+                  title="Delete block"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+          )}
           {/* Resize Handle */}
           {isSelected && (
             <div
