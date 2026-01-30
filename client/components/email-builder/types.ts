@@ -419,6 +419,8 @@ export interface TwoColumnCardBlock {
     imageAlt?: string;
     imageWidth?: number;
     imageHeight?: number;
+    imageLink?: string;
+    imageLinkType?: "url" | "page" | "email";
     title: string;
     description: string;
     backgroundColor: string;
