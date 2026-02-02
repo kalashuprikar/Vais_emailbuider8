@@ -642,7 +642,7 @@ export const CenteredImageCardBlockComponent: React.FC<
                               ? "2px solid rgb(255, 106, 0)"
                               : hoveredSection === `title-${title.id}`
                                 ? "2px dotted rgb(255, 106, 0)"
-                                : "2px dotted rgb(255, 106, 0)",
+                                : "none",
                         }}
                       >
                         {title.content}
@@ -716,7 +716,7 @@ export const CenteredImageCardBlockComponent: React.FC<
                               ? "2px solid rgb(255, 106, 0)"
                               : hoveredSection === `description-${desc.id}`
                                 ? "2px dotted rgb(255, 106, 0)"
-                                : "2px dotted rgb(255, 106, 0)",
+                                : "none",
                         }}
                       >
                         {desc.content}
@@ -800,7 +800,7 @@ export const CenteredImageCardBlockComponent: React.FC<
                                   ? "2px solid white"
                                   : hoveredSection === `button-${btn.id}`
                                     ? "2px dotted white"
-                                    : "2px dotted white",
+                                    : "none",
                             }}
                           >
                             {btn.text}
