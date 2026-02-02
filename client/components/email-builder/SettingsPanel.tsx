@@ -5955,11 +5955,21 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                           if (file) {
                             const reader = new FileReader();
                             reader.onload = (event) => {
-                              handleCardUpdate(
-                                "image",
-                                event.target?.result as string,
+                              // Batch both image updates into a single state update
+                              const updatedCards = twoColBlock.cards.map(
+                                (card: any) =>
+                                  card.id === selectedCardId
+                                    ? {
+                                        ...card,
+                                        image: event.target?.result as string,
+                                        imageAlt: file.name,
+                                      }
+                                    : card,
                               );
-                              handleCardUpdate("imageAlt", file.name);
+                              onBlockUpdate({
+                                ...twoColBlock,
+                                cards: updatedCards,
+                              });
                             };
                             reader.readAsDataURL(file);
                           }
