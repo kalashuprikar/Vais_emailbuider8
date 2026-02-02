@@ -325,7 +325,7 @@ export const CenteredImageCardBlockComponent: React.FC<
   }) => {
     return (
       <div
-        className="flex items-center justify-center gap-1 bg-white border border-gray-200 rounded-lg p-2 shadow-sm mt-2"
+        className="flex items-center gap-1 bg-white border border-gray-200 rounded-lg p-2 shadow-sm mt-2 w-fit"
         onMouseDown={(e) => e.preventDefault()}
       >
         {onAdd && (
