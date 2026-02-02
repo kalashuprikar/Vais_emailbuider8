@@ -73,7 +73,7 @@ export default function QuickAccess({
           {/* Left: Recent Uploads */}
           <Card
             data-tour="abm-recent-uploads"
-            className="col-span-1 lg:col-span-1 border border-gray-100"
+            className="col-span-1 lg:col-span-1 border border-gray-100 content-section-hover"
           >
             <CardHeader className="py-3">
               <div className="flex items-center gap-2">
