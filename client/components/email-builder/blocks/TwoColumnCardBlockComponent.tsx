@@ -163,11 +163,7 @@ export const TwoColumnCardBlockComponent: React.FC<
     }
   };
 
-  const handleCopyStyledTitle = async (text: string) => {
-    await copyToClipboard(text);
-  };
-
-  const handleCopyStyledDescription = async (text: string) => {
+  const handleCopyText = async (text: string) => {
     await copyToClipboard(text);
   };
 
