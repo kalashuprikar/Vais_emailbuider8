@@ -102,6 +102,42 @@ export const TwoColumnCardBlockComponent: React.FC<
     }
   };
 
+  const handleDuplicateCard = (cardId: string) => {
+    const cardToDuplicate = block.cards.find((c) => c.id === cardId);
+    if (cardToDuplicate) {
+      const newCard = {
+        ...cardToDuplicate,
+        id: `card-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      };
+      const cardIndex = block.cards.findIndex((c) => c.id === cardId);
+      const newCards = [...block.cards];
+      newCards.splice(cardIndex + 1, 0, newCard);
+      onUpdate({ ...block, cards: newCards });
+    }
+  };
+
+  const handleDuplicateText = (text: string) => {
+    navigator.clipboard.writeText(text);
+  };
+
+  const handleDeleteCard = (cardId: string) => {
+    if (block.cards.length > 1) {
+      const newCards = block.cards.filter((c) => c.id !== cardId);
+      onUpdate({ ...block, cards: newCards });
+      setFocusedField(null);
+    }
+  };
+
+  const handleDeleteField = (
+    cardId: string,
+    fieldName: "title" | "description",
+  ) => {
+    const updatedCards = block.cards.map((card) =>
+      card.id === cardId ? { ...card, [fieldName]: "" } : card,
+    );
+    onUpdate({ ...block, cards: updatedCards });
+  };
+
   const handleResizeStart = (
     e: React.MouseEvent,
     cardId: string,
