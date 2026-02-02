@@ -450,9 +450,7 @@ export const TwoColumnCardBlockComponent: React.FC<
                     cardId={card.id}
                     fieldName="title"
                     fieldValue={editingValue}
-                    onCopy={(value, fieldName) =>
-                      handleCopyText(value)
-                    }
+                    onCopy={(value, fieldName) => handleCopyText(value)}
                     onDelete={handleDeleteField}
                   />
                 </>
@@ -485,9 +483,7 @@ export const TwoColumnCardBlockComponent: React.FC<
                       cardId={card.id}
                       fieldName="title"
                       fieldValue={card.title}
-                      onCopy={(value, fieldName) =>
-                        handleCopyText(value)
-                      }
+                      onCopy={(value, fieldName) => handleCopyText(value)}
                       onDelete={handleDeleteField}
                     />
                   )}
@@ -517,9 +513,7 @@ export const TwoColumnCardBlockComponent: React.FC<
                     cardId={card.id}
                     fieldName="description"
                     fieldValue={editingValue}
-                    onCopy={(value, fieldName) =>
-                      handleCopyText(value)
-                    }
+                    onCopy={(value, fieldName) => handleCopyText(value)}
                     onDelete={handleDeleteField}
                   />
                 </>
@@ -552,9 +546,7 @@ export const TwoColumnCardBlockComponent: React.FC<
                       cardId={card.id}
                       fieldName="description"
                       fieldValue={card.description}
-                      onCopy={(value, fieldName) =>
-                        handleCopyText(value)
-                      }
+                      onCopy={(value, fieldName) => handleCopyText(value)}
                       onDelete={handleDeleteField}
                     />
                   )}
