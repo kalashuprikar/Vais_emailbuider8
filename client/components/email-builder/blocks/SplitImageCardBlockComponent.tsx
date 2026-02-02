@@ -3,7 +3,6 @@ import { SplitImageCardBlock } from "../types";
 import { Upload, Copy, Trash2, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
 
 interface SplitImageCardBlockComponentProps {
   block: SplitImageCardBlock;
