@@ -298,21 +298,7 @@ export const SplitImageCardBlockComponent: React.FC<
 
       // Copy to clipboard
       const buttonText = `${buttonToDuplicate.text} (${buttonToDuplicate.link})`;
-      const success = await copyToClipboard(buttonText);
-      if (success) {
-        toast({
-          title: "Copied!",
-          description: "Button copied to clipboard",
-          duration: 2000,
-        });
-      } else {
-        toast({
-          title: "Copy Failed",
-          description: "Could not copy to clipboard",
-          variant: "destructive",
-          duration: 2000,
-        });
-      }
+      await copyToClipboard(buttonText);
     }
   };
 
