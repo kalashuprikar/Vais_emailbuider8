@@ -161,6 +161,20 @@ export const SplitImageCardBlockComponent: React.FC<
     onBlockUpdate,
   ]);
 
+  const handleCopyText = (text: string) => {
+    navigator.clipboard.writeText(text);
+  };
+
+  const handleClearTitle = (id: string) => {
+    const newTitles = titles.map((t) => (t.id === id ? { ...t, content: "" } : t));
+    onBlockUpdate({ ...block, titles: newTitles });
+  };
+
+  const handleClearDescription = (id: string) => {
+    const newDescriptions = descriptions.map((d) => (d.id === id ? { ...d, content: "" } : d));
+    onBlockUpdate({ ...block, descriptions: newDescriptions });
+  };
+
   const handleAddTitle = () => {
     const newTitles = [...titles, { id: generateId(), content: "" }];
     onBlockUpdate({ ...block, titles: newTitles });
