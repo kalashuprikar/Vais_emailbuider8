@@ -21,6 +21,7 @@ export const SplitImageCardBlockComponent: React.FC<
   const [editMode, setEditMode] = useState<string | null>(null);
   const [isHoveringImage, setIsHoveringImage] = useState(false);
   const [hoveredSection, setHoveredSection] = useState<string | null>(null);
+  const [focusedSection, setFocusedSection] = useState<string | null>(null);
   const [isResizing, setIsResizing] = useState(false);
   const [resizeHandle, setResizeHandle] = useState<string | null>(null);
   const [startX, setStartX] = useState(0);
