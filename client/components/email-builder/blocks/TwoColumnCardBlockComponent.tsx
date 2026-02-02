@@ -305,10 +305,23 @@ export const TwoColumnCardBlockComponent: React.FC<
                 />
               ) : (
                 <h3
-                  className="font-bold text-base mb-2 m-0 cursor-pointer px-2 py-1 rounded transition-all hover:border-2 hover:border-dotted hover:border-current"
+                  className="font-bold text-base mb-2 m-0 cursor-pointer px-2 py-1 rounded transition-all"
+                  style={{
+                    color: card.textColor,
+                    border:
+                      focusedField === `${card.id}-title`
+                        ? `2px solid ${card.textColor}`
+                        : hoveredField === `${card.id}-title`
+                          ? `2px dotted ${card.textColor}`
+                          : "2px solid transparent",
+                  }}
+                  onClick={() => setFocusedField(`${card.id}-title`)}
                   onDoubleClick={() =>
                     handleStartEditingField(card.id, "title")
                   }
+                  onMouseEnter={() => setHoveredField(`${card.id}-title`)}
+                  onMouseLeave={() => setHoveredField(null)}
+                  onBlur={() => setFocusedField(null)}
                   title="Double-click to edit"
                 >
                   {card.title}
