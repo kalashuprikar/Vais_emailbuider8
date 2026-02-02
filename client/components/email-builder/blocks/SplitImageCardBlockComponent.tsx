@@ -650,9 +650,9 @@ export const SplitImageCardBlockComponent: React.FC<
               )}
 
               {/* Descriptions Section */}
-              {descriptions.length > 0 && (
+              {descriptions.filter(d => d.content).length > 0 && (
                 <div className="space-y-2">
-                  {descriptions.map((desc, idx) => (
+                  {descriptions.filter(d => d.content).map((desc, idx) => (
                     <div key={desc.id}>
                       {editMode === `description-${desc.id}` ? (
                         <>
