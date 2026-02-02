@@ -349,6 +349,15 @@
     width: 0;
     height: 0;
   }
+
+  /* Content section hover dotted border effect */
+  .content-section-hover {
+    transition: border-color 0.3s ease;
+  }
+
+  .content-section-hover:hover {
+    border: 2px dotted #ff6a00;
+  }
 }
 
 /* Confetti animation for tour completion */

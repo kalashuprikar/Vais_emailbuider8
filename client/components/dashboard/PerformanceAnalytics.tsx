@@ -297,7 +297,7 @@ export default function PerformanceAnalytics() {
 
         {/* Trends Tab */}
         <TabsContent value="trends" className="space-y-6">
-          <Card>
+          <Card className="content-section-hover">
             <CardHeader>
               <CardTitle className="flex items-center text-sm sm:text-base">
                 <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-valasys-orange flex-shrink-0" />
@@ -378,7 +378,7 @@ export default function PerformanceAnalytics() {
         <TabsContent value="comparison" className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {comparisonData.map((item, index) => (
-              <Card key={index}>
+              <Card key={index} className="content-section-hover">
                 <CardContent className="p-4 sm:p-6">
                   <div className="flex items-center justify-between mb-2">
                     <h3 className="text-xs sm:text-sm font-medium text-valasys-gray-600 truncate">
@@ -410,7 +410,7 @@ export default function PerformanceAnalytics() {
         <TabsContent value="funnel" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch">
             {/* Left: existing bar-style funnel */}
-            <Card className="h-full flex flex-col">
+            <Card className="h-full flex flex-col content-section-hover">
               <CardHeader>
                 <CardTitle className="text-sm sm:text-base">
                   Conversion Funnel Analysis
@@ -449,7 +449,7 @@ export default function PerformanceAnalytics() {
             </Card>
 
             {/* Right: custom neck funnel chart with gradients */}
-            <Card className="h-full flex flex-col">
+            <Card className="h-full flex flex-col content-section-hover">
               <CardHeader>
                 <CardTitle className="text-sm sm:text-base">
                   Funnel (Neck Chart)
@@ -466,7 +466,7 @@ export default function PerformanceAnalytics() {
 
         {/* Goal Tracking Tab */}
         <TabsContent value="goals" className="space-y-6">
-          <Card>
+          <Card className="content-section-hover">
             <CardHeader>
               <CardTitle className="flex items-center text-sm sm:text-base">
                 <Target className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-valasys-orange flex-shrink-0" />

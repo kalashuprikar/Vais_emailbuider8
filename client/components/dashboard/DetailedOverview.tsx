@@ -155,7 +155,10 @@ const BASES = {
   industry: [120, 100, 90, 80, 70],
 } as const;
 
-const MULTIPLIERS: Record<string, { empSize: number; industry: number; revenue: number }> = {
+const MULTIPLIERS: Record<
+  string,
+  { empSize: number; industry: number; revenue: number }
+> = {
   "VAIS Downloaded": { empSize: 1.2, industry: 1.0, revenue: 0.8 },
   "Accounts Verified": { empSize: 0.9, industry: 1.1, revenue: 1.0 },
   "LALs Generated": { empSize: 0.7, industry: 0.9, revenue: 1.3 },
@@ -254,7 +257,10 @@ interface DetailedOverviewProps {
   showEmptyOverlay?: boolean;
 }
 
-export default function DetailedOverview({ className, showEmptyOverlay = false }: DetailedOverviewProps) {
+export default function DetailedOverview({
+  className,
+  showEmptyOverlay = false,
+}: DetailedOverviewProps) {
   const [activeTab, setActiveTab] = useState("vais-downloaded");
   const navigate = useNavigate();
   const [dateRange, setDateRange] = useState("6m");
@@ -422,7 +428,7 @@ export default function DetailedOverview({ className, showEmptyOverlay = false }
 
   return (
     <Card
-      className={`hover:shadow-lg transition-all duration-300 ${className}`}
+      className={`hover:shadow-lg transition-all duration-300 content-section-hover ${className}`}
     >
       <CardHeader className="pb-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">

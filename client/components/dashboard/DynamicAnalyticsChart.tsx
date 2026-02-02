@@ -151,7 +151,7 @@ function DynamicChart({ title, data, chartType }: DynamicChartProps) {
 
   return (
     <Card
-      className={`${getCardHeight()} transition-all duration-500 ease-out border border-valasys-gray-200 hover:border-valasys-orange/30 hover:shadow-xl bg-gradient-to-br from-white via-white to-valasys-gray-50/30 ${
+      className={`${getCardHeight()} transition-all duration-500 ease-out border border-valasys-gray-200 hover:border-valasys-orange/30 hover:shadow-xl bg-gradient-to-br from-white via-white to-valasys-gray-50/30 content-section-hover ${
         isCardHovered ? "transform scale-[1.02] shadow-2xl" : "shadow-lg"
       }`}
       onMouseEnter={() => setIsCardHovered(true)}

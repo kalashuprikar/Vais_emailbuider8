@@ -40,7 +40,7 @@ export default function StatsCards() {
         return (
           <Card
             key={index}
-            className="hover:shadow-lg transition-shadow duration-200"
+            className="hover:shadow-lg transition-shadow duration-200 content-section-hover"
           >
             <CardContent className="p-6">
               <div className="flex items-center justify-between">

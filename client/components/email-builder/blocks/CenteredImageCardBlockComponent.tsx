@@ -207,8 +207,8 @@ export const CenteredImageCardBlockComponent: React.FC<
       });
       onBlockUpdate({ ...block, titles: newTitles });
 
-      // Copy to clipboard with styling
-      const styledContent = `<h2 style="font-weight: bold; font-size: 20px; color: rgb(17, 24, 39); text-align: center;">${titleToDuplicate.content}</h2>`;
+      // Copy to clipboard with complete styling
+      const styledContent = `<h2 style="font-weight: 700; font-size: 20px; color: rgb(17, 24, 39); text-align: center; margin: 0; padding: 12px; border-radius: 8px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.5;">${titleToDuplicate.content}</h2>`;
       navigator.clipboard
         .write([
           new ClipboardItem({
@@ -235,8 +235,8 @@ export const CenteredImageCardBlockComponent: React.FC<
       });
       onBlockUpdate({ ...block, descriptions: newDescriptions });
 
-      // Copy to clipboard with styling
-      const styledContent = `<p style="font-size: 14px; color: rgb(75, 85, 99); text-align: center; white-space: pre-wrap;">${descToDuplicate.content}</p>`;
+      // Copy to clipboard with complete styling
+      const styledContent = `<p style="font-size: 14px; color: rgb(75, 85, 99); text-align: center; white-space: pre-wrap; margin: 0; padding: 12px; border-radius: 8px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; letter-spacing: 0.3px;">${descToDuplicate.content}</p>`;
       navigator.clipboard
         .write([
           new ClipboardItem({
@@ -263,8 +263,8 @@ export const CenteredImageCardBlockComponent: React.FC<
       });
       onBlockUpdate({ ...block, buttons: newButtons });
 
-      // Copy to clipboard with styling
-      const styledContent = `<a href="${buttonToDuplicate.link}" style="display: inline-block; padding: 8px 16px; background-color: rgb(255, 106, 35); color: white; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 14px;">${buttonToDuplicate.text}</a>`;
+      // Copy to clipboard with complete styling
+      const styledContent = `<a href="${buttonToDuplicate.link}" style="display: inline-block; padding: 10px 24px; background-color: rgb(255, 106, 0); color: white; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; border: none; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(255, 106, 0, 0.2);">${buttonToDuplicate.text}</a>`;
       navigator.clipboard
         .write([
           new ClipboardItem({
@@ -560,18 +560,48 @@ export const CenteredImageCardBlockComponent: React.FC<
                       }
                       onMouseLeave={() => setHoveredSection(null)}
                     >
-                      <h3
-                        onClick={() => setEditMode(`title-${title.id}`)}
-                        className="font-bold text-xl text-gray-900 cursor-pointer transition-all p-3 rounded"
-                        style={{
-                          border:
-                            hoveredSection === `title-${title.id}`
-                              ? "1px dashed rgb(255, 106, 0)"
-                              : "none",
-                        }}
-                      >
-                        {title.content}
-                      </h3>
+                      <div className="flex items-center justify-between gap-2 group">
+                        <h3
+                          onClick={() => setEditMode(`title-${title.id}`)}
+                          className="flex-1 font-bold text-xl text-gray-900 cursor-pointer transition-all p-3 rounded"
+                          style={{
+                            border:
+                              hoveredSection === `title-${title.id}`
+                                ? "2px solid rgb(255, 106, 0)"
+                                : "2px dotted rgb(255, 106, 0)",
+                          }}
+                        >
+                          {title.content}
+                        </h3>
+                        {hoveredSection === `title-${title.id}` && (
+                          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-7 w-7 p-0 hover:bg-gray-100"
+                              title="Copy"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDuplicateTitle(title.id);
+                              }}
+                            >
+                              <Copy className="w-4 h-4 text-gray-700" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-7 w-7 p-0 hover:bg-red-100"
+                              title="Delete"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteTitle(title.id);
+                              }}
+                            >
+                              <Trash2 className="w-4 h-4 text-red-600" />
+                            </Button>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -620,18 +650,48 @@ export const CenteredImageCardBlockComponent: React.FC<
                       }
                       onMouseLeave={() => setHoveredSection(null)}
                     >
-                      <p
-                        onClick={() => setEditMode(`description-${desc.id}`)}
-                        className="text-sm text-gray-600 cursor-pointer transition-all p-3 rounded whitespace-pre-wrap break-words"
-                        style={{
-                          border:
-                            hoveredSection === `description-${desc.id}`
-                              ? "1px dashed rgb(255, 106, 0)"
-                              : "none",
-                        }}
-                      >
-                        {desc.content}
-                      </p>
+                      <div className="flex items-start justify-between gap-2 group">
+                        <p
+                          onClick={() => setEditMode(`description-${desc.id}`)}
+                          className="flex-1 text-sm text-gray-600 cursor-pointer transition-all p-3 rounded whitespace-pre-wrap break-words"
+                          style={{
+                            border:
+                              hoveredSection === `description-${desc.id}`
+                                ? "2px solid rgb(255, 106, 0)"
+                                : "2px dotted rgb(255, 106, 0)",
+                          }}
+                        >
+                          {desc.content}
+                        </p>
+                        {hoveredSection === `description-${desc.id}` && (
+                          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity mt-3 flex-shrink-0">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-7 w-7 p-0 hover:bg-gray-100"
+                              title="Copy"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDuplicateDescription(desc.id);
+                              }}
+                            >
+                              <Copy className="w-4 h-4 text-gray-700" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-7 w-7 p-0 hover:bg-red-100"
+                              title="Delete"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteDescription(desc.id);
+                              }}
+                            >
+                              <Trash2 className="w-4 h-4 text-red-600" />
+                            </Button>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -688,22 +748,52 @@ export const CenteredImageCardBlockComponent: React.FC<
                       onMouseEnter={() => setHoveredSection(`button-${btn.id}`)}
                       onMouseLeave={() => setHoveredSection(null)}
                     >
-                      <div className="flex justify-center">
-                        <button
-                          onClick={() => setEditMode(`button-text-${btn.id}`)}
-                          className="inline-block py-2 px-6 bg-valasys-orange text-white rounded text-sm font-bold hover:bg-orange-600 cursor-pointer transition-all"
-                          style={{
-                            border:
-                              hoveredSection === `button-${btn.id}`
-                                ? "1px dashed white"
-                                : "none",
-                          }}
-                        >
-                          {btn.text}
-                        </button>
-                      </div>
-                      <div className="text-xs text-gray-500 mt-1">
-                        Link: {btn.link || "#"}
+                      <div className="flex justify-center items-center gap-2 group">
+                        <div>
+                          <button
+                            onClick={() => setEditMode(`button-text-${btn.id}`)}
+                            className="inline-block py-2 px-6 bg-valasys-orange text-white rounded text-sm font-bold hover:bg-orange-600 cursor-pointer transition-all"
+                            style={{
+                              border:
+                                hoveredSection === `button-${btn.id}`
+                                  ? "2px solid white"
+                                  : "2px dotted white",
+                            }}
+                          >
+                            {btn.text}
+                          </button>
+                          <div className="text-xs text-gray-500 mt-1">
+                            Link: {btn.link || "#"}
+                          </div>
+                        </div>
+                        {hoveredSection === `button-${btn.id}` && (
+                          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-7 w-7 p-0 hover:bg-gray-100"
+                              title="Copy"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDuplicateButton(btn.id);
+                              }}
+                            >
+                              <Copy className="w-4 h-4 text-gray-700" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-7 w-7 p-0 hover:bg-red-100"
+                              title="Delete"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteButton(btn.id);
+                              }}
+                            >
+                              <Trash2 className="w-4 h-4 text-red-600" />
+                            </Button>
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}

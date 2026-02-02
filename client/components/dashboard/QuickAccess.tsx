@@ -73,7 +73,7 @@ export default function QuickAccess({
           {/* Left: Recent Uploads */}
           <Card
             data-tour="abm-recent-uploads"
-            className="col-span-1 lg:col-span-1 border border-gray-100"
+            className="col-span-1 lg:col-span-1 border border-gray-100 content-section-hover"
           >
             <CardHeader className="py-3">
               <div className="flex items-center gap-2">
@@ -131,7 +131,7 @@ export default function QuickAccess({
           {/* Middle: Saved Categories */}
           <Card
             data-tour="abm-saved-categories"
-            className="col-span-1 lg:col-span-2 border border-gray-100"
+            className="col-span-1 lg:col-span-2 border border-gray-100 content-section-hover"
           >
             <CardHeader className="py-3">
               <div className="flex items-center justify-between">
@@ -203,7 +203,7 @@ export default function QuickAccess({
           {/* Right: Today's Activity */}
           <Card
             data-tour="abm-today-activity"
-            className="col-span-1 lg:col-span-1 border border-gray-100"
+            className="col-span-1 lg:col-span-1 border border-gray-100 content-section-hover"
           >
             <CardHeader className="py-3">
               <CardTitle className="text-sm font-medium text-gray-800">
