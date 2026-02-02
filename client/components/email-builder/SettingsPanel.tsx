@@ -5982,6 +5982,23 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
 
                 <div>
                   <Label className="text-xs font-semibold text-gray-700 mb-2 block">
+                    Image URL
+                  </Label>
+                  <Input
+                    value={selectedCard.image || ""}
+                    onChange={(e) =>
+                      handleCardUpdate("image", e.target.value)
+                    }
+                    placeholder="https://example.com/image.jpg"
+                    className="text-xs focus:ring-valasys-orange focus:ring-2"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Paste an image URL or upload a file above
+                  </p>
+                </div>
+
+                <div>
+                  <Label className="text-xs font-semibold text-gray-700 mb-2 block">
                     Image Link Type
                   </Label>
                   <select
