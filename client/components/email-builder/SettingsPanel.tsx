@@ -54,6 +54,16 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
   const [videoHeightInput, setVideoHeightInput] = useState<string>(
     String(block?.type === "video" ? (block.height ?? 200) : 200),
   );
+  const [twoCardWidthInput, setTwoCardWidthInput] = useState<string>(
+    String(
+      block?.type === "twoColumnCard" ? ((block as any).width ?? 100) : 100,
+    ),
+  );
+  const [twoCardHeightInput, setTwoCardHeightInput] = useState<string>(
+    String(
+      block?.type === "twoColumnCard" ? ((block as any).height ?? 300) : 300,
+    ),
+  );
 
   // Update input states when block changes
   React.useEffect(() => {
