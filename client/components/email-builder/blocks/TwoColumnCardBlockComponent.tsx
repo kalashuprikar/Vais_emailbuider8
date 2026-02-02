@@ -451,9 +451,7 @@ export const TwoColumnCardBlockComponent: React.FC<
                     fieldName="title"
                     fieldValue={editingValue}
                     onCopy={(value, fieldName) =>
-                      fieldName === "title"
-                        ? handleCopyStyledTitle(value)
-                        : handleCopyStyledDescription(value)
+                      handleCopyText(value)
                     }
                     onDelete={handleDeleteField}
                   />
