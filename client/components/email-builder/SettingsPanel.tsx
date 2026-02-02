@@ -55,7 +55,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
     String(block?.type === "video" ? (block.height ?? 200) : 200),
   );
   const [twoCardWidthInput, setTwoCardWidthInput] = useState<string>(
-    String(block?.type === "twoColumnCard" ? ((block as any).width ?? 100) : 100),
+    String(
+      block?.type === "twoColumnCard" ? ((block as any).width ?? 100) : 100,
+    ),
   );
 
   // Update input states when block changes
@@ -5975,7 +5977,8 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
 
                         if (numericValue !== "") {
                           const num = parseInt(numericValue);
-                          const maxValue = twoColBlock.widthUnit === "%" ? 100 : 1000;
+                          const maxValue =
+                            twoColBlock.widthUnit === "%" ? 100 : 1000;
                           if (num >= 1 && num <= maxValue) {
                             onBlockUpdate({
                               ...twoColBlock,
@@ -5995,7 +5998,8 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                           setTwoCardWidthInput("100");
                         } else {
                           const num = parseInt(numericValue);
-                          const maxValue = twoColBlock.widthUnit === "%" ? 100 : 1000;
+                          const maxValue =
+                            twoColBlock.widthUnit === "%" ? 100 : 1000;
                           if (num > maxValue) {
                             onBlockUpdate({
                               ...twoColBlock,
@@ -6014,8 +6018,10 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                       onKeyDown={(e) => {
                         if (e.key === "ArrowUp") {
                           e.preventDefault();
-                          const currentWidth = parseInt(twoCardWidthInput) || 100;
-                          const maxValue = twoColBlock.widthUnit === "%" ? 100 : 1000;
+                          const currentWidth =
+                            parseInt(twoCardWidthInput) || 100;
+                          const maxValue =
+                            twoColBlock.widthUnit === "%" ? 100 : 1000;
                           const newWidth = Math.min(currentWidth + 1, maxValue);
                           onBlockUpdate({
                             ...twoColBlock,
@@ -6024,7 +6030,8 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                           setTwoCardWidthInput(String(newWidth));
                         } else if (e.key === "ArrowDown") {
                           e.preventDefault();
-                          const currentWidth = parseInt(twoCardWidthInput) || 100;
+                          const currentWidth =
+                            parseInt(twoCardWidthInput) || 100;
                           const newWidth = Math.max(1, currentWidth - 1);
                           onBlockUpdate({
                             ...twoColBlock,
@@ -6066,7 +6073,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     <Input
                       id="cardTitle"
                       value={selectedCard.title}
-                      onChange={(e) => handleCardUpdate("title", e.target.value)}
+                      onChange={(e) =>
+                        handleCardUpdate("title", e.target.value)
+                      }
                       placeholder="Enter card title"
                       className="flex-1 focus:ring-valasys-orange focus:ring-2"
                     />
