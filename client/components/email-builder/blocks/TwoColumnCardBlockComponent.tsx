@@ -260,13 +260,13 @@ export const TwoColumnCardBlockComponent: React.FC<
     cardId,
     fieldName,
     fieldValue,
-    onCopy,
+    onDuplicate,
     onDelete,
   }: {
     cardId: string;
     fieldName: "title" | "description";
     fieldValue: string;
-    onCopy: (value: string, fieldName: "title" | "description") => void;
+    onDuplicate: (cardId: string, fieldValue: string) => void;
     onDelete: (cardId: string, fieldName: "title" | "description") => void;
   }) => {
     return (
@@ -288,10 +288,10 @@ export const TwoColumnCardBlockComponent: React.FC<
           variant="ghost"
           size="sm"
           className="h-7 w-7 p-0 hover:bg-gray-100"
-          title="Duplicate card"
+          title="Duplicate field"
           onClick={(e) => {
             e.stopPropagation();
-            handleDuplicateCard(cardId);
+            onDuplicate(cardId, fieldValue);
           }}
         >
           <Copy className="w-3 h-3 text-gray-700" />
