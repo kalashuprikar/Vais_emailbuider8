@@ -5879,7 +5879,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
           const newCard = {
             id: cardId,
             titles: [{ id: generateId(), content: "Card Title" }],
-            descriptions: [{ id: generateId(), content: "Add your card description here" }],
+            descriptions: [
+              { id: generateId(), content: "Add your card description here" },
+            ],
             image: "",
             imageAlt: "",
             imageWidth: undefined,
@@ -6184,19 +6186,30 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   </Label>
                   <Input
                     id="cardTitle"
-                    value={selectedCard.titles?.[0]?.content || selectedCard.title || ""}
+                    value={
+                      selectedCard.titles?.[0]?.content ||
+                      selectedCard.title ||
+                      ""
+                    }
                     onChange={(e) => {
-                      if (selectedCard.titles && selectedCard.titles.length > 0) {
-                        const updatedCards = twoColBlock.cards.map((card: any) =>
-                          card.id === selectedCardId
-                            ? {
-                                ...card,
-                                titles: [
-                                  { ...card.titles[0], content: e.target.value },
-                                  ...card.titles.slice(1),
-                                ],
-                              }
-                            : card,
+                      if (
+                        selectedCard.titles &&
+                        selectedCard.titles.length > 0
+                      ) {
+                        const updatedCards = twoColBlock.cards.map(
+                          (card: any) =>
+                            card.id === selectedCardId
+                              ? {
+                                  ...card,
+                                  titles: [
+                                    {
+                                      ...card.titles[0],
+                                      content: e.target.value,
+                                    },
+                                    ...card.titles.slice(1),
+                                  ],
+                                }
+                              : card,
                         );
                         onBlockUpdate({ ...twoColBlock, cards: updatedCards });
                       } else {
@@ -6206,7 +6219,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     placeholder="Enter card title"
                     className="flex-1 focus:ring-valasys-orange focus:ring-2"
                   />
-                  <p className="text-xs text-gray-500 mt-1">Use card editor to duplicate sections</p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Use card editor to duplicate sections
+                  </p>
                 </div>
 
                 <div>
@@ -6218,19 +6233,30 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   </Label>
                   <textarea
                     id="cardDescription"
-                    value={selectedCard.descriptions?.[0]?.content || selectedCard.description || ""}
+                    value={
+                      selectedCard.descriptions?.[0]?.content ||
+                      selectedCard.description ||
+                      ""
+                    }
                     onChange={(e) => {
-                      if (selectedCard.descriptions && selectedCard.descriptions.length > 0) {
-                        const updatedCards = twoColBlock.cards.map((card: any) =>
-                          card.id === selectedCardId
-                            ? {
-                                ...card,
-                                descriptions: [
-                                  { ...card.descriptions[0], content: e.target.value },
-                                  ...card.descriptions.slice(1),
-                                ],
-                              }
-                            : card,
+                      if (
+                        selectedCard.descriptions &&
+                        selectedCard.descriptions.length > 0
+                      ) {
+                        const updatedCards = twoColBlock.cards.map(
+                          (card: any) =>
+                            card.id === selectedCardId
+                              ? {
+                                  ...card,
+                                  descriptions: [
+                                    {
+                                      ...card.descriptions[0],
+                                      content: e.target.value,
+                                    },
+                                    ...card.descriptions.slice(1),
+                                  ],
+                                }
+                              : card,
                         );
                         onBlockUpdate({ ...twoColBlock, cards: updatedCards });
                       } else {
@@ -6241,7 +6267,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     rows={4}
                     className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-valasys-orange focus:border-transparent"
                   />
-                  <p className="text-xs text-gray-500 mt-1">Use card editor to duplicate sections</p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Use card editor to duplicate sections
+                  </p>
                 </div>
 
                 <div>

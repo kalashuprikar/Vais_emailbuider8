@@ -337,7 +337,9 @@ export const TwoColumnCardBlockComponent: React.FC<
           const titles = useMemo(
             () =>
               card.titles ||
-              (card.title ? [{ id: `title-${card.id}`, content: card.title }] : []),
+              (card.title
+                ? [{ id: `title-${card.id}`, content: card.title }]
+                : []),
             [card.titles, card.title],
           );
 
@@ -449,7 +451,9 @@ export const TwoColumnCardBlockComponent: React.FC<
                             autoFocus
                             value={editingValue}
                             onChange={(e) => setEditingValue(e.target.value)}
-                            onBlur={() => handleSaveEditTitle(card.id, title.id)}
+                            onBlur={() =>
+                              handleSaveEditTitle(card.id, title.id)
+                            }
                             onKeyPress={(e) => {
                               if (e.key === "Enter") {
                                 handleSaveEditTitle(card.id, title.id);
